@@ -1,3 +1,5 @@
+from random import randint
+
 class ModularArithmetic: 
 
     @staticmethod
@@ -19,6 +21,19 @@ class ModularArithmetic:
     def modNegate(a, n):
         #Calculate -a (modn)
         return (-a)%n
+    
+    @staticmethod
+    def modPow(a, e, n):
+        if (e < 0):
+            return ModularArithmetic.modInverse(ModularArithmetic.modPow(a, -1*e, n), n)
+        elif (e == 0):
+            return 1
+        else:
+            if e % 2 == 1:
+                return (a * ((ModularArithmetic.modPow(a, e // 2, n) ** 2) % n)) % n
+            else:
+                return (ModularArithmetic.modPow(a, e // 2, n) ** 2) % n
+
 
     @staticmethod
     def euclidianAlgorithm(a, b):
@@ -59,3 +74,18 @@ class ModularArithmetic:
             return None
         else:
             return (a * ModularArithmetic.modInverse(b, n))%n
+        
+    @staticmethod
+    def randModVal(n):
+        #Returns a random value in the cannonical residue class
+        return randint(0, n-1)
+    
+    @staticmethod
+    def legendreSymbol(a, n):
+        #Returns 0 if n|a, 1 if a is a quad-residue, -1 if a is a nonresidue
+        expontent = (n - 1) // 2
+        temp = pow(a, expontent, n)
+        if temp > 1:
+            return temp-n
+        else:
+            return temp
