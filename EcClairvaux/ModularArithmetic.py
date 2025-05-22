@@ -23,6 +23,7 @@ class ModularArithmetic:
         return (-a)%n
     
     @staticmethod
+    #Calculate a^e (modn)
     def modPow(a, e, n):
         if (e < 0):
             return ModularArithmetic.modInverse(ModularArithmetic.modPow(a, -1*e, n), n)
@@ -36,10 +37,10 @@ class ModularArithmetic:
 
 
     @staticmethod
+    #Find the greatest common divisor of a and b
     def euclidianAlgorithm(a, b):
         if (a < 0 or b < 0):
             raise ValueError("Error, the Euclidian Algorithm requires two POSOTIVE integers")
-        #Find the greatest common divisor of a and b
         if (a < b):
             temp = a
             a = b
@@ -50,9 +51,9 @@ class ModularArithmetic:
 
     @staticmethod
     def extendedEuclidianAlgorithm(a, b):
+        #Solves the equation ax+by=gcd(a,b), gaurenteed by Bezout's identity
         if (a < 0 or b < 0):
             raise ValueError("Error, the Euclidian Algorithm requires two POSOTIVE integers")
-        #Solves the equation ax+by=gcd(a,b), gaurenteed by Bezout's identity
         if a == 0:
             return 0, 1
         x, y = ModularArithmetic.extendedEuclidianAlgorithm(b % a, a)
@@ -89,3 +90,13 @@ class ModularArithmetic:
             return temp-n
         else:
             return temp
+    
+    @staticmethod
+    #Calculates the square root of a mod n where a congruent to 1 mod 4, as Fermats Little Theorem does not apply
+    def tonelliShankAlgorithm(a, n):
+        pass
+
+
+    @staticmethod
+    def modSqrt(a, n):
+        pass

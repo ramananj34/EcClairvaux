@@ -156,6 +156,8 @@ assert modari.modPow(5, -3, 13) == 5  # 5^(-3) % 13 = 5
 print("(11/12) Power Tests Passed")
 
 #Sqrt
+
+print("(12/12) Square Root Tests Passed")
     
 
 print("All Tests Passed!")
