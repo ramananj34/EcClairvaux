@@ -1,3 +1,7 @@
-from .EcClairvaux import ModularArithmetic
+from .ModularArithmetic import ModularArithmetic
+from .EllipticCurves import EllipticCurves
 
-__all__ = ["ModularArithmetic"]
+__all__ = [
+    "ModularArithmetic",
+    "EllipticCurves"
+    ]
