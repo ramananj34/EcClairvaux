@@ -22,6 +22,8 @@ class ModularArithmetic:
 
     @staticmethod
     def euclidianAlgorithm(a, b):
+        if (a < 0 or b < 0):
+            raise ValueError("Error, the Euclidian Algorithm requires two POSOTIVE integers")
         #Find the greatest common divisor of a and b
         if (a < b):
             temp = a
@@ -33,16 +35,13 @@ class ModularArithmetic:
 
     @staticmethod
     def extendedEuclidianAlgorithm(a, b):
+        if (a < 0 or b < 0):
+            raise ValueError("Error, the Euclidian Algorithm requires two POSOTIVE integers")
         #Solves the equation ax+by=gcd(a,b), gaurenteed by Bezout's identity
-        if (a < b):
-            temp = a
-            a = b
-            b = temp
-        if (a==0):
+        if a == 0:
             return 0, 1
-        else: 
-            x, y = ModularArithmetic.extendedEuclidianAlgorithm(b%a, a)
-            return y-((a//b)*x), x
+        x, y = ModularArithmetic.extendedEuclidianAlgorithm(b % a, a)
+        return y - (b // a) * x, x
 
     @staticmethod
     def modInverse(a, n):
@@ -51,13 +50,12 @@ class ModularArithmetic:
             return None
         else:
             x, y = ModularArithmetic.extendedEuclidianAlgorithm(a,n)
-            return x
+            return x%n
 
     @staticmethod
     def modDiv(a, b, n):
         #Calculate a/b (modn)
-        if (ModularArithmetic.modInverse(b) != None):
-            print("Error, Divide by Zero in modDiv")
+        if (ModularArithmetic.modInverse(b, n) == None):
             return None
         else:
-            return (a * ModularArithmetic.modInverse(b))%n
+            return (a * ModularArithmetic.modInverse(b, n))%n
