@@ -1,3 +1,4 @@
-from EcClairvaux import ModularArithmetic as ma
+from EcClairvaux import ModularArithmetic as modart
 
-print(ma.euclidianAlgorithm(15, 30))
+print("hello world")
+print(modart.euclidianAlgorithm(15,30))
