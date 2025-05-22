@@ -1,3 +1,3 @@
-import ModularArithmetic
+from .EcClairvaux import ModularArithmetic
 
 __all__ = ["ModularArithmetic"]
