@@ -99,4 +99,11 @@ class ModularArithmetic:
 
     @staticmethod
     def modSqrt(a, n):
-        pass
+        #Calculates the square root of a mod n
+        if (ModularArithmetic.legendreSymbol(a, n) != 1):
+            return None
+        elif (a%4 == 3): #Use Fermat's Little Theorem
+            pass
+        else: #Use Tonelli and Shanks Algorithm
+            pass
+
