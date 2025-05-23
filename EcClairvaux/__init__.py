@@ -1,7 +1,7 @@
 from .NumericalFiniteFieldArithmetic import NumericalFiniteFieldArithmetic
-from .EllipticCurves import EllipticCurves
+from .EllipticCurveFields import EllipticCurveFields
 
 __all__ = [
     "NumericalFiniteFieldArithmetic",
-    "EllipticCurves"
+    "EllipticCurveFields"
     ]
