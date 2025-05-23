@@ -1,3 +1,5 @@
+import NumericalFiniteFieldArithmetic as nffa
+
 class EllipticCurveFields:
 
     class Point: 
@@ -12,7 +14,7 @@ class EllipticCurveFields:
         def __eq__(self, other):
             return self.x == other.x and self.y == other.y
         
-    class CurveField: 
+    class CurveField:
 
         def __init__(self, a4, a6, p):
             self.a4 = a4
@@ -37,14 +39,14 @@ class EllipticCurveFields:
         #Calculates the slope between p1 and p2 on curve ec, avoiding a side-channel attack 
         if (p1 == EllipticCurveFields.POINT_AT_INFINITY or p2 == EllipticCurveFields.POINT_AT_INFINITY):
             raise ValueError("Cant calculate the slope of a Point at Infinity")
-        num = pow(p1.x,2) + (p1.x * p2.x) + pow(p2.x,2) + ec.a4
-        denom = p1.y + p2.y
+        num = nffa.modAdd(nffa.modAdd(nffa.modPow(p1.x, 2, ec.p), nffa.modMult(p1.x, p2.x, ec.p), ec.p), nffa.modAdd(nffa.modPow(p2.x, 2, ec.p), ec.a4, ec.p), ec.p)
+        denom = nffa.modAdd(p1.y, p2.y, ec.p)
         if (denom == 0): #If the side channel resistant method doesn't work, i.e we have a 0 in the denominator, we switch to the traditional method
-            denom = p2.x - p1.x
+            denom = nffa.modSub(p2.x, p1.x, ec.p)
             if (denom == 0): #If x1=x2, we have a point at infinity
                 return None
-            num = p2.y - p1.y
-        return num / denom
+            num = nffa.modSub(p2.y, p1.y, ec.p)
+        return nffa.modDiv(num,denom,ec.p)
 
     @staticmethod
     def addPoints(p1, p2, ec):
@@ -54,8 +56,8 @@ class EllipticCurveFields:
         elif (p2 == EllipticCurveFields.POINT_AT_INFINITY):
             return p1
         slope = EllipticCurveFields.calcSlope(p1, p2, ec)
-        x = pow(slope, 2) - (p1.x + p2.x)
-        y = slope*(p1.x - x) - p1.y
+        x = nffa.modSub(nffa.modPow(slope, 2, ec.p), nffa.modAdd(p1.x, p2.x, ec.p), ec.p)
+        y = nffa.modSub(nffa.modMult(slope, (nffa.modSub(p1.x, x, ec.p)), ec.p), p1.y, ec.p)
         return EllipticCurveFields.point(x, y)
 
     @staticmethod

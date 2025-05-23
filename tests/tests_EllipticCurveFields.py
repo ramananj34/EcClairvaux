@@ -32,4 +32,7 @@ print("(3/) Point Negation Tests Passed")
 assert str(ecf.POINT_AT_INFINITY) == "(0,0)"
 print("(4/) Point at Infinity Tests Passed")
 
+#Point Addition
+print(ecf.addPoints(ecf.Point(11, 11), ecf.Point(91, 27), ecf.CurveField(5, 5, 97)))
+
 print("All Tests Passed!")
