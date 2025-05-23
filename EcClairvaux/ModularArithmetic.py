@@ -93,9 +93,34 @@ class ModularArithmetic:
     
     @staticmethod
     #Calculates the square root of a mod n where a congruent to 1 mod 4, as Fermats Little Theorem does not apply
-    def tonelliShankAlgorithm(a, n):
-        pass
-
+    def tonelliShankAlgorithm(a, mod):
+        q = mod-1
+        e = 0
+        while (q%2 == 0):
+            e+=1
+            q//=2
+        randnonres = ModularArithmetic.randModVal(mod)
+        while (ModularArithmetic.legendreSymbol(randnonres, mod) != -1):
+            randnonres = ModularArithmetic.randModVal(mod)
+        y = ModularArithmetic.modPow(randnonres, q, mod)
+        r = e
+        x = ModularArithmetic.modPow(a, (q-1)//2, mod)
+        b = ModularArithmetic.modMult(a, pow(x, 2), mod)
+        x = ModularArithmetic.modMult(a, x, mod)
+        while (b != 1):
+            m = 1
+            while True:
+                if (1 == ModularArithmetic.modPow(b, pow(2, m), mod)):
+                    break
+                m+=1
+            if (r == m):
+                print("Something went wrong, I am not sure what, but it is a problem")
+            t = ModularArithmetic.modPow(y, pow(2, r-m-1), mod)
+            y = ModularArithmetic.modPow(t, 2, mod)
+            r = m
+            x = ModularArithmetic.modMult(x, t, mod)
+            b = ModularArithmetic.modMult(b, y, mod)
+        return x
 
     @staticmethod
     def modSqrt(a, mod):
@@ -106,30 +131,4 @@ class ModularArithmetic:
             e = (mod+1)/4
             return ModularArithmetic.modPow(a, e, mod)
         else: #Use Tonelli and Shanks Algorithm
-            q = mod-1
-            e = 0
-            while (q%2 == 0):
-                e+=1
-                q//=2
-            randnonres = ModularArithmetic.randModVal(mod)
-            while (ModularArithmetic.legendreSymbol(randnonres, mod) != -1):
-                randnonres = ModularArithmetic.randModVal(mod)
-            y = ModularArithmetic.modPow(randnonres, q, mod)
-            r = e
-            x = ModularArithmetic.modPow(a, (q-1)//2, mod)
-            b = ModularArithmetic.modMult(a, pow(x, 2), mod)
-            x = ModularArithmetic.modMult(a, x, mod)
-            while (b != 1):
-                m = 1
-                while True:
-                    if (1 == ModularArithmetic.modPow(b, pow(2, m), mod)):
-                        break
-                    m+=1
-                if (r == m):
-                    print("Something went wrong, I am not sure what, but it is a problem")
-                t = ModularArithmetic.modPow(y, pow(2, r-m-1), mod)
-                y = ModularArithmetic.modPow(t, 2, mod)
-                r = m
-                x = ModularArithmetic.modMult(x, t, mod)
-                b = ModularArithmetic.modMult(b, y, mod)
-            return x
+            return ModularArithmetic.tonelliShankAlgorithm(a, mod)

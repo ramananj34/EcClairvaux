@@ -170,6 +170,5 @@ assert modari.modPow(modari.modSqrt(4, 17), 2, 17) == 4
 assert modari.modPow(modari.modSqrt(8, 17), 2, 17) == 8
 assert modari.modPow(modari.modSqrt(3, 13), 2, 13) == 3
 print("(12/12) Square Root Tests Passed")
-    
 
 print("All Tests Passed!")
