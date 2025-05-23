@@ -21,11 +21,10 @@ class ECMQV:
         return (x%(pow(2, ceil((log2(generator.order))/2)))) + (pow(2, ceil((log2(generator.order))/2)))
     
     @staticmethod
-    def computeSharedKey(staticPrivateKeyA, ephemeralPrivateKeyA, ephemeralPublicKeyA, staticPublicKeyB, ephemeralPublicKeyB, generator, ec):
-        impSig = nffa.modAdd(ephemeralPrivateKeyA, nffa.modMult(ECMQV.avf(ephemeralPublicKeyA.x, generator), staticPrivateKeyA, ec.p), ec.p)
-        pt = ecf.addPoints(ephemeralPublicKeyB, ecf.multPoint(staticPublicKeyB, ECMQV.avf(ephemeralPublicKeyB.x, generator), ec), ec)
-        ss = ecf.multPoint(pt, impSig, ec)
-        if (ec.cofactor > 1):
-            print(ec.cofactor)
-            ss = ecf.multPoint(ss, ec.cofactor, ec)
-        return ss.x
+    def computeSharedKey(aStaticPrivateKey, aEphemeralPrivateKey, aEphemeralPublicKey, bStaticPublicKey, bEphemeralPublicKey, generator, curve):
+        sig = aEphemeralPrivateKey + ECMQV.avf(aEphemeralPublicKey.x, generator)*aStaticPrivateKey
+        pt = ecf.addPoints(bEphemeralPublicKey, ecf.multPoint(bStaticPublicKey, ECMQV.avf(bEphemeralPublicKey.x, generator), curve), curve)
+        sspt = ecf.multPoint(pt, sig, curve)
+        if (curve.cofactor > 1):
+            sspt = ecf.multPoint(sspt, curve.cofactor, curve)
+        return sspt.x
