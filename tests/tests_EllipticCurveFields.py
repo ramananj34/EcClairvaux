@@ -1,4 +1,4 @@
-#Tests written with the help of chatGPT
+#Made with the help of ChatGPT
 
 import sys
 import os
@@ -33,6 +33,18 @@ assert str(ecf.POINT_AT_INFINITY) == "(0,0)"
 print("(4/) Point at Infinity Tests Passed")
 
 #Point Addition
-print(ecf.addPoints(ecf.Point(11, 11), ecf.Point(91, 27), ecf.CurveField(5, 5, 97)))
+assert ecf.addPoints(ecf.Point(10, 17), ecf.Point(90, 28), ecf.CurveField(6,5,97)) == ecf.Point(82, 41)
+assert ecf.addPoints(ecf.Point(16, 13), ecf.Point(3, 1), ecf.CurveField(2,2,17)) == ecf.Point(7, 11)
+assert ecf.addPoints(ecf.Point(10, 17), ecf.Point(0, 0), ecf.CurveField(6, 5, 97)) == ecf.Point(10, 17)
+assert ecf.addPoints(ecf.Point(0, 0), ecf.Point(90, 28), ecf.CurveField(6, 5, 97)) == ecf.Point(90, 28)
+assert ecf.addPoints(ecf.Point(10, 17), ecf.Point(10, 17), ecf.CurveField(6, 5, 97)) == ecf.Point(61, 9)
+assert ecf.addPoints(ecf.Point(16, 13), ecf.Point(16, 13), ecf.CurveField(2, 2, 17)) == ecf.Point(0, 11)
+assert ecf.addPoints(ecf.Point(3, 1), ecf.Point(3, 1), ecf.CurveField(2, 2, 17)) == ecf.Point(13, 7)
+assert ecf.addPoints(ecf.Point(3, 1), ecf.Point(3, 16), ecf.CurveField(2, 2, 17)) == ecf.Point(0, 0)
+assert ecf.addPoints(ecf.Point(0, 0), ecf.Point(0, 0), ecf.CurveField(2, 2, 17)) == ecf.Point(0, 0)
+assert ecf.addPoints(ecf.Point(4, 6), ecf.Point(7, 10), ecf.CurveField(2, 3, 13)) == ecf.Point(11, 2)
+assert ecf.addPoints(ecf.Point(1, 1), ecf.Point(3, 7), ecf.CurveField(0, 0, 11)) == ecf.Point(5, 9)
+assert ecf.addPoints(ecf.Point(4, 11), ecf.Point(10, 7), ecf.CurveField(1, 1, 13)) == ecf.Point(11, 11)
+print("(5/) Point addition Tests Passed")
 
 print("All Tests Passed!")

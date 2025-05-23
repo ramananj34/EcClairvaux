@@ -1,4 +1,4 @@
-import NumericalFiniteFieldArithmetic as nffa
+from EcClairvaux import NumericalFiniteFieldArithmetic as nffa
 
 class EllipticCurveFields:
 
@@ -56,9 +56,11 @@ class EllipticCurveFields:
         elif (p2 == EllipticCurveFields.POINT_AT_INFINITY):
             return p1
         slope = EllipticCurveFields.calcSlope(p1, p2, ec)
+        if slope == None:
+            return EllipticCurveFields.POINT_AT_INFINITY
         x = nffa.modSub(nffa.modPow(slope, 2, ec.p), nffa.modAdd(p1.x, p2.x, ec.p), ec.p)
         y = nffa.modSub(nffa.modMult(slope, (nffa.modSub(p1.x, x, ec.p)), ec.p), p1.y, ec.p)
-        return EllipticCurveFields.point(x, y)
+        return EllipticCurveFields.Point(x, y)
 
     @staticmethod
     def multPoint():
