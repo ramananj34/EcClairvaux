@@ -47,4 +47,18 @@ assert ecf.addPoints(ecf.Point(1, 1), ecf.Point(3, 7), ecf.CurveField(0, 0, 11))
 assert ecf.addPoints(ecf.Point(4, 11), ecf.Point(10, 7), ecf.CurveField(1, 1, 13)) == ecf.Point(11, 11)
 print("(5/) Point addition Tests Passed")
 
+#Point Multiplication
+assert ecf.multPoint(ecf.Point(3, 6), 2, ecf.CurveField(2, 3, 97)) == ecf.Point(80,10)
+assert ecf.multPoint(ecf.Point(3, 6), 1, ecf.CurveField(2, 3, 97)) == ecf.Point(3, 6)
+assert ecf.multPoint(ecf.Point(3, 6), 0, ecf.CurveField(2, 3, 97)) == ecf.Point(0, 0)
+assert ecf.multPoint(ecf.Point(80, 10), 1, ecf.CurveField(2, 3, 97)) == ecf.Point(80, 10)
+assert ecf.multPoint(ecf.Point(80, 10), 2, ecf.CurveField(2, 3, 97)) == ecf.Point(3, 91)
+assert ecf.multPoint(ecf.Point(3, 6), 3, ecf.CurveField(2, 3, 97)) == ecf.Point(80, 87)
+assert ecf.multPoint(ecf.Point(3, 6), 20, ecf.CurveField(2, 3, 97)) == ecf.POINT_AT_INFINITY
+assert ecf.multPoint(ecf.Point(3, 6), 2, ecf.CurveField(2, 3, 97)) == ecf.addPoints(ecf.Point(3, 6), ecf.Point(3, 6), ecf.CurveField(2, 3, 97))
+assert ecf.multPoint(ecf.Point(0, 0), 10, ecf.CurveField(2, 3, 97)) == ecf.Point(0, 0)
+assert ecf.multPoint(ecf.Point(16, 34), 15, ecf.CurveField(5, 7, 1009)) == ecf.Point(112, 490)
+assert ecf.multPoint(ecf.Point(3, 6), 6, ecf.CurveField(2, 3, 97)) == ecf.Point(3, 6)
+
+
 print("All Tests Passed!")

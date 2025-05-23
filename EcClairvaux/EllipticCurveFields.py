@@ -63,8 +63,18 @@ class EllipticCurveFields:
         return EllipticCurveFields.Point(x, y)
 
     @staticmethod
-    def multPoint():
-        pass
+    def multPoint(p, k, ec):
+        #Add p to itself k times on ec
+        newPoint = EllipticCurveFields.POINT_AT_INFINITY
+        temp = EllipticCurveFields.Point(p.x, p.y)
+        while k !=0:
+            if k&1:
+                newPoint = EllipticCurveFields.addPoints(newPoint, temp, ec)
+            k=k>>1
+            if (k!=0):
+                temp=EllipticCurveFields.addPoints(temp, temp, ec)
+        return newPoint
+		
 
     @staticmethod
     def embedData(ec, data):
