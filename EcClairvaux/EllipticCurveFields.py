@@ -1,3 +1,4 @@
+from random import randint
 from EcClairvaux import NumericalFiniteFieldArithmetic as nffa
 
 class EllipticCurveFields:
@@ -75,11 +76,21 @@ class EllipticCurveFields:
                 temp=EllipticCurveFields.addPoints(temp, temp, ec)
         return newPoint
 		
+    @staticmethod
+    def computefx(x, ec):
+        #Calculates f(x) = x^3 + a4*x + a6
+        return nffa.modAdd(nffa.modAdd(nffa.modPow(x, 3, ec.p),nffa.modMult(x, ec.a4, ec.p), ec.p), ec.a6, ec.p)
 
     @staticmethod
-    def embedData(ec, data):
-        pass
+    def embedData(data, ec):
+        #Embedds data as a point
+        while (nffa.legendreSymbol(EllipticCurveFields.computefx(data, ec), ec.p) != 1):
+            data = nffa.modAdd(data, 1, ec.p)
+        y = nffa.modSqrt(EllipticCurveFields.computefx(data, ec), ec.p)
+        return (EllipticCurveFields.Point(data, y), EllipticCurveFields.Point(data, nffa.modNegate(y, ec.p)))
 
     @staticmethod
     def getRandomPoint(ec):
-        pass
+        data = nffa.randModVal(ec.p)
+        points = EllipticCurveFields.embedData(data, ec)
+        return points[randint(0,1)]
