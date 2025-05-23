@@ -35,7 +35,6 @@ class ModularArithmetic:
             else:
                 return (ModularArithmetic.modPow(a, e // 2, n) ** 2) % n
 
-
     @staticmethod
     #Find the greatest common divisor of a and b
     def euclidianAlgorithm(a, b):
