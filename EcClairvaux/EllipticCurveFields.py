@@ -84,7 +84,7 @@ class EllipticCurveFields:
     @staticmethod
     def embedData(data, ec):
         #Embedds data as a point
-        while (nffa.legendreSymbol(EllipticCurveFields.computefx(data, ec), ec.p) != 1):
+        while (nffa.legendreSymbol(EllipticCurveFields.computefx(data, ec), ec.p) == -1):
             data = nffa.modAdd(data, 1, ec.p)
         y = nffa.modSqrt(EllipticCurveFields.computefx(data, ec), ec.p)
         return (EllipticCurveFields.Point(data, y), EllipticCurveFields.Point(data, nffa.modNegate(y, ec.p)))
