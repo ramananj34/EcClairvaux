@@ -156,7 +156,19 @@ assert modari.modPow(5, -3, 13) == 5  # 5^(-3) % 13 = 5
 print("(11/12) Power Tests Passed")
 
 #Sqrt
-
+# %3 (FLT)
+assert modari.modPow(modari.modSqrt(2, 7), 2, 7) == 2
+assert modari.modPow(modari.modSqrt(4, 11), 2, 11) == 4
+assert modari.modPow(modari.modSqrt(6, 19), 2, 19) == 6
+assert modari.modPow(modari.modSqrt(1, 19), 2, 19) == 1
+assert modari.modPow(modari.modSqrt(1, 7), 2, 7) == 1
+# %1 (Tonelli/Shank)
+assert modari.modPow(modari.modSqrt(4, 5), 2, 5) == 4
+assert modari.modPow(modari.modSqrt(9, 13), 2, 13) == 9
+assert modari.modPow(modari.modSqrt(1, 5), 2, 5) == 1
+assert modari.modPow(modari.modSqrt(4, 17), 2, 17) == 4
+assert modari.modPow(modari.modSqrt(8, 17), 2, 17) == 8
+assert modari.modPow(modari.modSqrt(3, 13), 2, 13) == 3
 print("(12/12) Square Root Tests Passed")
     
 

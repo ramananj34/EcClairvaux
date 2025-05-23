@@ -98,12 +98,38 @@ class ModularArithmetic:
 
 
     @staticmethod
-    def modSqrt(a, n):
+    def modSqrt(a, mod):
         #Calculates the square root of a mod n
-        if (ModularArithmetic.legendreSymbol(a, n) != 1):
+        if (ModularArithmetic.legendreSymbol(a, mod) != 1):
             return None
-        elif (a%4 == 3): #Use Fermat's Little Theorem
-            pass
+        elif (mod % 4 == 3): #Use Fermat's Little Theorem Directly
+            e = (mod+1)/4
+            return ModularArithmetic.modPow(a, e, mod)
         else: #Use Tonelli and Shanks Algorithm
-            pass
-
+            q = mod-1
+            e = 0
+            while (q%2 == 0):
+                e+=1
+                q//=2
+            randnonres = ModularArithmetic.randModVal(mod)
+            while (ModularArithmetic.legendreSymbol(randnonres, mod) != -1):
+                randnonres = ModularArithmetic.randModVal(mod)
+            y = ModularArithmetic.modPow(randnonres, q, mod)
+            r = e
+            x = ModularArithmetic.modPow(a, (q-1)//2, mod)
+            b = ModularArithmetic.modMult(a, pow(x, 2), mod)
+            x = ModularArithmetic.modMult(a, x, mod)
+            while (b != 1):
+                m = 1
+                while True:
+                    if (1 == ModularArithmetic.modPow(b, pow(2, m), mod)):
+                        break
+                    m+=1
+                if (r == m):
+                    print("Something went wrong, I am not sure what, but it is a problem")
+                t = ModularArithmetic.modPow(y, pow(2, r-m-1), mod)
+                y = ModularArithmetic.modPow(t, 2, mod)
+                r = m
+                x = ModularArithmetic.modMult(x, t, mod)
+                b = ModularArithmetic.modMult(b, y, mod)
+            return x
