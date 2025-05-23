@@ -1,6 +1,6 @@
 from random import randint
 
-class ModularArithmetic: 
+class NumericalFiniteFieldArithmetic: 
 
     @staticmethod
     def modAdd(a, b, n):
@@ -26,14 +26,14 @@ class ModularArithmetic:
     #Calculate a^e (modn)
     def modPow(a, e, n):
         if (e < 0):
-            return ModularArithmetic.modInverse(ModularArithmetic.modPow(a, -1*e, n), n)
+            return NumericalFiniteFieldArithmetic.modInverse(NumericalFiniteFieldArithmetic.modPow(a, -1*e, n), n)
         elif (e == 0):
             return 1
         else:
             if e % 2 == 1:
-                return (a * ((ModularArithmetic.modPow(a, e // 2, n) ** 2) % n)) % n
+                return (a * ((NumericalFiniteFieldArithmetic.modPow(a, e // 2, n) ** 2) % n)) % n
             else:
-                return (ModularArithmetic.modPow(a, e // 2, n) ** 2) % n
+                return (NumericalFiniteFieldArithmetic.modPow(a, e // 2, n) ** 2) % n
 
     @staticmethod
     #Find the greatest common divisor of a and b
@@ -46,7 +46,7 @@ class ModularArithmetic:
             b = temp
         if (b == 0):
             return a
-        return ModularArithmetic.euclidianAlgorithm(b, a%b)
+        return NumericalFiniteFieldArithmetic.euclidianAlgorithm(b, a%b)
 
     @staticmethod
     def extendedEuclidianAlgorithm(a, b):
@@ -55,25 +55,25 @@ class ModularArithmetic:
             raise ValueError("Error, the Euclidian Algorithm requires two POSOTIVE integers")
         if a == 0:
             return 0, 1
-        x, y = ModularArithmetic.extendedEuclidianAlgorithm(b % a, a)
+        x, y = NumericalFiniteFieldArithmetic.extendedEuclidianAlgorithm(b % a, a)
         return y - (b // a) * x, x
 
     @staticmethod
     def modInverse(a, n):
         #Calculate the inverse of a mod n using the Extended Euclidian Algorithm
-        if (ModularArithmetic.euclidianAlgorithm(a,n) != 1):
+        if (NumericalFiniteFieldArithmetic.euclidianAlgorithm(a,n) != 1):
             return None
         else:
-            x, y = ModularArithmetic.extendedEuclidianAlgorithm(a,n)
+            x, y = NumericalFiniteFieldArithmetic.extendedEuclidianAlgorithm(a,n)
             return x%n
 
     @staticmethod
     def modDiv(a, b, n):
         #Calculate a/b (modn)
-        if (ModularArithmetic.modInverse(b, n) == None):
+        if (NumericalFiniteFieldArithmetic.modInverse(b, n) == None):
             return None
         else:
-            return (a * ModularArithmetic.modInverse(b, n))%n
+            return (a * NumericalFiniteFieldArithmetic.modInverse(b, n))%n
         
     @staticmethod
     def randModVal(n):
@@ -98,36 +98,36 @@ class ModularArithmetic:
         while (q%2 == 0):
             e+=1
             q//=2
-        randnonres = ModularArithmetic.randModVal(mod)
-        while (ModularArithmetic.legendreSymbol(randnonres, mod) != -1):
-            randnonres = ModularArithmetic.randModVal(mod)
-        y = ModularArithmetic.modPow(randnonres, q, mod)
+        randnonres = NumericalFiniteFieldArithmetic.randModVal(mod)
+        while (NumericalFiniteFieldArithmetic.legendreSymbol(randnonres, mod) != -1):
+            randnonres = NumericalFiniteFieldArithmetic.randModVal(mod)
+        y = NumericalFiniteFieldArithmetic.modPow(randnonres, q, mod)
         r = e
-        x = ModularArithmetic.modPow(a, (q-1)//2, mod)
-        b = ModularArithmetic.modMult(a, pow(x, 2), mod)
-        x = ModularArithmetic.modMult(a, x, mod)
+        x = NumericalFiniteFieldArithmetic.modPow(a, (q-1)//2, mod)
+        b = NumericalFiniteFieldArithmetic.modMult(a, pow(x, 2), mod)
+        x = NumericalFiniteFieldArithmetic.modMult(a, x, mod)
         while (b != 1):
             m = 1
             while True:
-                if (1 == ModularArithmetic.modPow(b, pow(2, m), mod)):
+                if (1 == NumericalFiniteFieldArithmetic.modPow(b, pow(2, m), mod)):
                     break
                 m+=1
             if (r == m):
                 print("Something went wrong, I am not sure what, but it is a problem")
-            t = ModularArithmetic.modPow(y, pow(2, r-m-1), mod)
-            y = ModularArithmetic.modPow(t, 2, mod)
+            t = NumericalFiniteFieldArithmetic.modPow(y, pow(2, r-m-1), mod)
+            y = NumericalFiniteFieldArithmetic.modPow(t, 2, mod)
             r = m
-            x = ModularArithmetic.modMult(x, t, mod)
-            b = ModularArithmetic.modMult(b, y, mod)
+            x = NumericalFiniteFieldArithmetic.modMult(x, t, mod)
+            b = NumericalFiniteFieldArithmetic.modMult(b, y, mod)
         return x
 
     @staticmethod
     def modSqrt(a, mod):
         #Calculates the square root of a mod n
-        if (ModularArithmetic.legendreSymbol(a, mod) != 1):
+        if (NumericalFiniteFieldArithmetic.legendreSymbol(a, mod) != 1):
             return None
         elif (mod % 4 == 3): #Use Fermat's Little Theorem Directly
             e = (mod+1)/4
-            return ModularArithmetic.modPow(a, e, mod)
+            return NumericalFiniteFieldArithmetic.modPow(a, e, mod)
         else: #Use Tonelli and Shanks Algorithm
-            return ModularArithmetic.tonelliShankAlgorithm(a, mod)
+            return NumericalFiniteFieldArithmetic.tonelliShankAlgorithm(a, mod)
