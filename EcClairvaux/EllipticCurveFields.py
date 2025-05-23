@@ -15,6 +15,9 @@ class EllipticCurveFields:
         def __eq__(self, other):
             return self.x == other.x and self.y == other.y
         
+        def declareOrder(self, order):
+            self.order = order
+        
     class CurveField:
 
         def __init__(self, a4, a6, p):
@@ -27,6 +30,9 @@ class EllipticCurveFields:
         
         def __eq__(self, other):
             return self.a4 == other.a4 and self.a6 == other.a6 and self.p == other.p
+        
+        def declareCofactor(self, cofactor):
+            self.cofactor = cofactor
     
     POINT_AT_INFINITY = Point(0,0)
         
