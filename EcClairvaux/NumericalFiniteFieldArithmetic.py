@@ -93,6 +93,8 @@ class NumericalFiniteFieldArithmetic:
     @staticmethod
     #Calculates the square root of a mod n where a congruent to 1 mod 4, as Fermats Little Theorem does not apply
     def tonelliShankAlgorithm(a, mod):
+        if NumericalFiniteFieldArithmetic.legendreSymbol(a, mod) != 1 or mod % 4 == 3:
+            raise ValueError("Error, conditions for Tonelli and Shanks Algorithm not met")
         q = mod-1
         e = 0
         while (q%2 == 0):
