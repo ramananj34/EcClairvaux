@@ -1,3 +1,5 @@
+from EcClairvaux import NumericalFiniteFieldArithmetic as nffa
+
 class PolynomialFiniteFieldArithmetic: 
     
     class Poly:
@@ -30,14 +32,30 @@ class PolynomialFiniteFieldArithmetic:
                     return False
             return True
         
+        def degree(self):
+            return len(self.cx)-1
+        
     def modAdd(p1, p2, n):
-        pass
+        size = max(p1.degree(), p2.degree()) + 1
+        newPolyDegrees = [0 for i in range(size)]
+        for i in range(size):
+            if (not i > p1.degree()):
+                newPolyDegrees[i] = nffa.modAdd(newPolyDegrees[i], p1.cx[i], n)
+            if (not i > p2.degree()):
+                newPolyDegrees[i] = nffa.modAdd(newPolyDegrees[i], p2.cx[i], n)
+        while (len(newPolyDegrees)>0 and newPolyDegrees[-1] == 0):
+            newPolyDegrees = newPolyDegrees[:-1]
+        return PolynomialFiniteFieldArithmetic.Poly(newPolyDegrees)
+
 
     def modNegate(p, n):
-        pass
+        return PolynomialFiniteFieldArithmetic.Poly([nffa.modNegate(p.cx[i], n) for i in range(len(p.cx))])
 
     def modSub(p1, p2, n):
-        pass
+        return PolynomialFiniteFieldArithmetic.modAdd(p1, PolynomialFiniteFieldArithmetic.modNegate(p2, n), n)
+    
+    def randPoly(maxDegree, n):
+        return PolynomialFiniteFieldArithmetic.Poly([nffa.randModVal(n) for i in range(maxDegree + 1)])
 
     def modMult(p1, p2, n):
         pass
