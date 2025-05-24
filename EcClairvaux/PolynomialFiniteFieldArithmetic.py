@@ -21,3 +21,23 @@ class PolynomialFiniteFieldArithmetic:
                 return "Empty Polynomial"
             else:
                 return str
+            
+        def __eq__(self, other):
+            if len(self.cx) != len(other.cx):
+                return False
+            for i in range(0, len(self.cx)):
+                if self.cx[i] != other.cx[i]:
+                    return False
+            return True
+        
+    def modAdd(p1, p2, n):
+        pass
+
+    def modNegate(p, n):
+        pass
+
+    def modSub(p1, p2, n):
+        pass
+
+    def modMult(p1, p2, n):
+        pass
