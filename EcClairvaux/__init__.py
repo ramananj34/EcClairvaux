@@ -4,6 +4,7 @@ from .ECDH import ECDH
 from .ECMQV import ECMQV
 from .ECSchnorr import ECSchnorr
 from .ECDSA import ECDSA
+from .PolynomialFiniteFieldArithmetic import PolynomialFiniteFieldArithmetic
 
 __all__ = [
     "NumericalFiniteFieldArithmetic",
@@ -12,5 +13,6 @@ __all__ = [
     "ECMQV", 
     "KeyUtils", 
     "ECSchnorr",
-    "ECDSA"
+    "ECDSA",
+    "PolynomialFiniteFieldArithmetic"
     ]
