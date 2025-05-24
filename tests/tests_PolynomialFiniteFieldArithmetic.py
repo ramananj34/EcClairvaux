@@ -15,4 +15,9 @@ assert pffa.modNegate(pffa.Poly([1,0,1]), 127) == pffa.Poly([126, 0, 126])
 pffa.modSub(pffa.Poly([3, 7, 96, 37]), pffa.Poly([3, 7, 96, 37]), 127) == pffa.Poly([])
 
 #Random Polynomial
-print(pffa.randPoly(3, 127))
+#print(pffa.randPoly(3, 127))
+
+#MultTableDeclaration
+primePoly = pffa.Poly([5, 3, 1, 2, 1])
+primePoly.declareMultTable()
+primePoly.printMultTable()

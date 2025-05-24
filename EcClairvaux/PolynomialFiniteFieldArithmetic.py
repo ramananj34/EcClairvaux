@@ -35,6 +35,21 @@ class PolynomialFiniteFieldArithmetic:
         def degree(self):
             return len(self.cx)-1
         
+        def declareMultTable(self):
+            cols = self.degree()
+            rows = 2*self.degree()
+            self.multTable = [[0 for _ in range(cols)] for _ in range(rows)]
+            for i in range(cols):
+                self.multTable[i][i] = 1
+            for i in range(cols):
+                self.multTable[cols][i] = -1*self.cx[i]
+            
+        def printMultTable(self):
+            for i in range(len(self.multTable)):
+                for j in range(len(self.multTable[i])):
+                    print(str(self.multTable[i][-j-1]) + "   ", end="")
+                print()
+        
     def modAdd(p1, p2, n):
         size = max(p1.degree(), p2.degree()) + 1
         newPolyDegrees = [0 for i in range(size)]
