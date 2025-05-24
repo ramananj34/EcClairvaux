@@ -19,5 +19,24 @@ pffa.modSub(pffa.Poly([3, 7, 96, 37]), pffa.Poly([3, 7, 96, 37]), 127) == pffa.P
 
 #MultTableDeclaration
 primePoly = pffa.Poly([5, 3, 1, 2, 1])
-primePoly.declareMultTable()
-primePoly.printMultTable()
+primePoly.declareMultTable(7)
+#primePoly.printMultTable()
+
+primePoly = pffa.Poly([19, 0, 1, 0, 1])
+primePoly.declareMultTable(131)
+#primePoly.printMultTable()
+
+
+#Polynomial Multiplication
+pa = pffa.Poly([-6, 0, 0, 5])
+pb = pffa.Poly([-1, 2])
+pc = pffa.Poly([-6, 5])
+primePoly = primePoly = pffa.Poly([5, 3, 1, 2, 1])
+primePoly.declareMultTable(4219)
+mult = pffa.modMult(pa, pb, primePoly)
+#print(mult)
+mult = pffa.modMult(pc, pb, primePoly)
+#print(mult)
+
+p = pffa.Poly([4, 2, 1, 5])
+print(pffa.normalizePoly(p, 7))
