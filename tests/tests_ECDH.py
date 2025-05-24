@@ -1,5 +1,3 @@
-#Made with the help of ChatGPT
-
 import sys
 import os
 from random import randint
