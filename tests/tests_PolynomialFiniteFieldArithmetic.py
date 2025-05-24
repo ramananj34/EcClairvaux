@@ -39,4 +39,16 @@ mult = pffa.modMult(pc, pb, primePoly)
 #print(mult)
 
 p = pffa.Poly([4, 2, 1, 5])
-print(pffa.normalizePoly(p, 7))
+#print(pffa.normalizePoly(p, 7))
+
+#Polynomial Powers:
+primePoly = pffa.Poly([3, 1, 1])
+primePoly.declareMultTable(43)
+power = 25
+poweredPoly = pffa.Poly([3, 11])
+#print(pffa.modPower(poweredPoly, power, primePoly))
+primePoly = pffa.Poly([3, 1, 1])
+primePoly.declareMultTable(43)
+power = 1848
+poweredPoly = pffa.Poly([3, 11])
+print(pffa.modPower(poweredPoly, power, primePoly))

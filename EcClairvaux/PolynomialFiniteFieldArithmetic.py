@@ -31,7 +31,7 @@ class PolynomialFiniteFieldArithmetic:
                 if self.cx[i] != other.cx[i]:
                     return False
             return True
-        
+
         def degree(self):
             return len(self.cx)-1
         
@@ -55,7 +55,8 @@ class PolynomialFiniteFieldArithmetic:
                 for j in range(len(self.multTable[i])):
                     print(str(self.multTable[i][-j-1]) + "   ", end="")
                 print()
-        
+
+    @staticmethod  
     def modAdd(p1, p2, n):
         size = max(p1.degree(), p2.degree()) + 1
         newPolyDegrees = [0 for i in range(size)]
@@ -68,16 +69,19 @@ class PolynomialFiniteFieldArithmetic:
             newPolyDegrees = newPolyDegrees[:-1]
         return PolynomialFiniteFieldArithmetic.Poly(newPolyDegrees)
 
-
+    @staticmethod
     def modNegate(p, n):
         return PolynomialFiniteFieldArithmetic.Poly([nffa.modNegate(p.cx[i], n) for i in range(len(p.cx))])
 
+    @staticmethod
     def modSub(p1, p2, n):
         return PolynomialFiniteFieldArithmetic.modAdd(p1, PolynomialFiniteFieldArithmetic.modNegate(p2, n), n)
     
+    @staticmethod
     def randPoly(maxDegree, n):
         return PolynomialFiniteFieldArithmetic.Poly([nffa.randModVal(n) for i in range(maxDegree + 1)])
 
+    @staticmethod
     def modMult(p1, p2, pn):
         newPolyDegrees = [0 for _ in range(p1.degree() + p2.degree()+1)]
         for i in range(len(newPolyDegrees)):
@@ -94,11 +98,22 @@ class PolynomialFiniteFieldArithmetic:
             result = result[:-1]
         return PolynomialFiniteFieldArithmetic.Poly(result)
     
-    def normalizePoly(p, n): #Untested
+    @staticmethod
+    def normalizePoly(p, n):
         if (p.cx[-1] == 1):
             return p
         else:
             inverse = nffa.modInverse(p.cx[-1], n)
             return PolynomialFiniteFieldArithmetic.Poly([nffa.modMult(inverse, c, n) for c in p.cx])
-
+        
+    @staticmethod
+    def modPower(poly, k, primePoly):
+        bits = bin(k)[2:][::-1]
+        result = PolynomialFiniteFieldArithmetic.Poly([1])
+        base = PolynomialFiniteFieldArithmetic.Poly(poly.cx)
+        for bit in bits:
+            if bit == "1":
+                result = PolynomialFiniteFieldArithmetic.modMult(result, base, primePoly)
+            base = PolynomialFiniteFieldArithmetic.modMult(base, base, primePoly)
+        return result
 
