@@ -9,6 +9,9 @@ class ECSchnorr:
         def __init__(self, point, s):
             self.point = point
             self.s = s
+
+        def __str__(self):
+            return "Point: " + str(self.point) + " S: " + str(self.s)
     
     @staticmethod
     def generatePublicKey(privateKey, generator, ec):

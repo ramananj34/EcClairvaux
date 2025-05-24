@@ -3,6 +3,7 @@ from .EllipticCurveFields import EllipticCurveFields
 from .ECDH import ECDH
 from .ECMQV import ECMQV
 from .ECSchnorr import ECSchnorr
+from .ECDSA import ECDSA
 
 __all__ = [
     "NumericalFiniteFieldArithmetic",
@@ -10,5 +11,6 @@ __all__ = [
     "ECDH",
     "ECMQV", 
     "KeyUtils", 
-    "ECSchnorr"
+    "ECSchnorr",
+    "ECDSA"
     ]
