@@ -57,6 +57,14 @@ class PolynomialFiniteFieldArithmetic:
                     print(str(self.multTable[i][-j-1]) + "   ", end="")
                 print()
 
+    def untrail0s(arr):
+        newArr = [x for x in arr]
+        while newArr and newArr[-1] == 0:
+            newArr.pop()
+        if newArr == []:
+            newArr = [0]
+        return newArr
+
     @staticmethod  
     def modAdd(p1, p2, n):
         size = max(p1.degree(), p2.degree()) + 1
@@ -120,8 +128,8 @@ class PolynomialFiniteFieldArithmetic:
 
     @staticmethod
     def modNumDiv(di, do, n):
-        num = [x for x in di.cx if x != 0 or any(di.cx[di.cx.index(x)+1:])]
-        den = [x for x in do.cx if x != 0 or any(do.cx[do.cx.index(x)+1:])]
+        num = PolynomialFiniteFieldArithmetic.untrail0s(di.cx)
+        den = PolynomialFiniteFieldArithmetic.untrail0s(do.cx)
         if len(num) < len(den):
             return PolynomialFiniteFieldArithmetic.Poly([0]), PolynomialFiniteFieldArithmetic.Poly(num)
         shiftlen = len(num) - len(den)
@@ -137,6 +145,8 @@ class PolynomialFiniteFieldArithmetic:
             den.pop(0)
         num = [x % n for x in num if x != 0 or any(num[num.index(x)+1:])]
         quot = [x % n for x in quot]
+        num = PolynomialFiniteFieldArithmetic.untrail0s(num)
+        quot = PolynomialFiniteFieldArithmetic.untrail0s(quot)
         return PolynomialFiniteFieldArithmetic.Poly(quot), PolynomialFiniteFieldArithmetic.Poly(num)
     
     @staticmethod
@@ -167,7 +177,6 @@ class PolynomialFiniteFieldArithmetic:
     def modInverse():
         pass
 
-    def modDiv():
+    @staticmethod
+    def modPolyDiv():
         pass
-
-
