@@ -124,8 +124,8 @@ class PolynomialFiniteFieldArithmetic:
         q = PolynomialFiniteFieldArithmetic.Poly([0 for _ in range(qdeg+1)])
         if (do.degree() > di.degree()):
             return q, rem
-        tempPoly = PolynomialFiniteFieldArithmetic.Poly([0 for _ in range(di.degree()+1)])
         while rem.degree() >= do.degree() and rem.degree() != 0:
+            tempPoly = PolynomialFiniteFieldArithmetic.Poly([0 for _ in range(di.degree()+1)])
             index = rem.degree() - do.degree()
             s = nffa.modDiv(rem.cx[rem.degree()], do.cx[do.degree()], n)
             q.cx[index] = s
@@ -136,9 +136,21 @@ class PolynomialFiniteFieldArithmetic:
 
     @staticmethod
     def euclidianAlgorithm(p1, p2, n):
-        rem = p1.cx
-        q = []
-
+        if str(p1) == "Empty Polynomial":
+            return p2
+        elif str(p2) == "Empty Polynomial":
+            return p1
+        if p1.degree() >= p2.degree():
+            greater = PolynomialFiniteFieldArithmetic.Poly(p1.cx)
+            lesser = PolynomialFiniteFieldArithmetic.Poly(p2.cx)
+        else:
+            lesser = PolynomialFiniteFieldArithmetic.Poly(p1.cx)
+            greater = PolynomialFiniteFieldArithmetic.Poly(p2.cx)
+        while str(lesser) != "Empty Polynomial":
+            _, r = PolynomialFiniteFieldArithmetic.modNumDiv(greater, lesser, n)
+            greater = lesser
+            lesser = r
+        return greater
 
     @staticmethod
     def extendedEuclidianAlgorithm():

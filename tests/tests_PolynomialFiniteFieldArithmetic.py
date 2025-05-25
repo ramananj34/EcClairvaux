@@ -60,9 +60,18 @@ mod = 7
 q, rem = pffa.modNumDiv(pa, pb, mod)
 #print(f"{q} and {rem}")
 pa = pffa.Poly([6, 19, 0, 14, 0, 0, 0, 13])
-print(pa)
+#print(pa)
 pb = pffa.Poly([17, 0, -1, 0, 0, 1])
-print(pb)
+#print(pb)
 mod = 43
 q, rem = pffa.modNumDiv(pa, pb, mod)
-print(f"{q} and {rem}")
+#print(q.cx)
+#print(rem.cx)
+#print(f"{q} and {rem}")
+
+#euclidian Algorithm
+#a = pffa.Poly([12, 4, 13, 1])
+#b = pffa.Poly([11, 16, 2, 22, 1])
+a = pffa.Poly([6, 7, 1])
+b = pffa.Poly([-6, -5, 1])
+print(pffa.euclidianAlgorithm(a, b, 23))
