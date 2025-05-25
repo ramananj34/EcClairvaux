@@ -54,32 +54,47 @@ poweredPoly = pffa.Poly([3, 11])
 #print(pffa.modPower(poweredPoly, power, primePoly)) #Expected from Fermats Little Theorem
 
 #Polynomial Divison mod n
+"""
 pa = pffa.Poly([1, 3, 2, 1])
 pb = pffa.Poly([6, 1, 0, 5])
 mod = 7
 q, rem = pffa.modNumDiv(pa, pb, mod)
-#print(f"{q} and {rem}")
+print(f"{q} and {rem}")
 pa = pffa.Poly([6, 19, 0, 14, 0, 0, 0, 13])
 pb = pffa.Poly([17, 0, -1, 0, 0, 1])
 mod = 43
 q, rem = pffa.modNumDiv(pa, pb, mod)
-#print(f"{q} and {rem}")
+print(f"{q} and {rem}")
 pa = pffa.Poly([6, 19, 0, 14, 0, 0, 0, 13])
 pb = pffa.Poly([6, 19, 0, 14, 0, 0, 0, 13])
 mod = 43
 q, rem = pffa.modNumDiv(pa, pb, mod)
-#print(f"{q} and {rem}")
+print(f"{q} and {rem}")
 pa = pffa.Poly([0])
 pb = pffa.Poly([0])
 mod = 43
 q, rem = pffa.modNumDiv(pa, pb, mod)
-#print(f"{q} and {rem}")
+print(f"{q} and {rem}")
+pa = pffa.Poly([0, 5])
+pb = pffa.Poly([5])
+q, rem = pffa.modNumDiv(pa, pb, mod)
+print(f"{q} and {rem}")
+pa = pffa.Poly([5])
+pb = pffa.Poly([5])
+q, rem = pffa.modNumDiv(pa, pb, mod)
+print(f"{q} and {rem}")
+"""
+
+pa = pffa.Poly([1, 3, 2, 1])
+pb = pffa.Poly([6, 1, 0, 5])
+mod = 7
+q, rem = pffa.modNumDiv(pa, pb, mod)
+print(f"{q} and {rem}")
 
 #euclidian Algorithm
 a = pffa.Poly([12, 4, 13, 1])
 b = pffa.Poly([11, 16, 2, 22, 1])
-print(pffa.euclidianAlgorithm(a, b, 23))
-
+#print(pffa.euclidianAlgorithm(a, b, 23))
 a = pffa.Poly([6, 7, 1])
 b = pffa.Poly([-6, -5, 1])
 #print(pffa.euclidianAlgorithm(a, b, 23))
@@ -91,4 +106,4 @@ b = pffa.Poly([-2, -1, -1, 1])
 #print(pffa.euclidianAlgorithm(a, b, 23))
 a = pffa.Poly([-2, -1, 1, 0, -2, 5])
 b = pffa.Poly([-2, -1, -1, 1])
-print(pffa.euclidianAlgorithm(a, b, 23))
+#print(pffa.euclidianAlgorithm(a, b, 23))

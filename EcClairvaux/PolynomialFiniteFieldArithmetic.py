@@ -117,24 +117,28 @@ class PolynomialFiniteFieldArithmetic:
                 result = PolynomialFiniteFieldArithmetic.modMult(result, base, primePoly)
             base = PolynomialFiniteFieldArithmetic.modMult(base, base, primePoly)
         return result
-    
+
     @staticmethod
     def modNumDiv(di, do, n):
-        qdeg = di.degree() - do.degree()
-        rem = PolynomialFiniteFieldArithmetic.Poly(di.cx)
-        q = PolynomialFiniteFieldArithmetic.Poly([0 for _ in range(qdeg+1)])
-        if (do.degree() > di.degree()):
-            return q, rem
-        while rem.degree() >= do.degree() and rem.degree() != 0:
-            tempPoly = PolynomialFiniteFieldArithmetic.Poly([0 for _ in range(di.degree()+1)])
-            index = rem.degree() - do.degree()
-            s = nffa.modDiv(rem.cx[rem.degree()], do.cx[do.degree()], n)
-            q.cx[index] = s
-            for i in range(do.degree()+1):
-                tempPoly.cx[i+index] = nffa.modMult(s, do.cx[i], n)
-            rem = PolynomialFiniteFieldArithmetic.modSub(rem, tempPoly, n)
-        return q, rem
-
+        num = [x for x in di.cx if x != 0 or any(di.cx[di.cx.index(x)+1:])]
+        den = [x for x in do.cx if x != 0 or any(do.cx[do.cx.index(x)+1:])]
+        if len(num) < len(den):
+            return PolynomialFiniteFieldArithmetic.Poly([0]), PolynomialFiniteFieldArithmetic.Poly(num)
+        shiftlen = len(num) - len(den)
+        den = [0] * shiftlen + den
+        quot = []
+        for _ in range(shiftlen + 1):
+            mult = nffa.modDiv(num[-1], den[-1], n)
+            quot.insert(0, mult)
+            if mult:
+                d = [nffa.modMult(mult, u, n) for u in den]
+                num = [nffa.modSub(u, v, n) for u, v in zip(num, d)]
+            num.pop()
+            den.pop(0)
+        num = [x % n for x in num if x != 0 or any(num[num.index(x)+1:])]
+        quot = [x % n for x in quot]
+        return PolynomialFiniteFieldArithmetic.Poly(quot), PolynomialFiniteFieldArithmetic.Poly(num)
+    
     @staticmethod
     def euclidianAlgorithm(p1, p2, n):
         if all(c == 0 for c in p1.cx):
