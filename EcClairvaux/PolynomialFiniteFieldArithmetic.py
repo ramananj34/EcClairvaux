@@ -1,4 +1,5 @@
 from EcClairvaux import NumericalFiniteFieldArithmetic as nffa
+import time
 
 class PolynomialFiniteFieldArithmetic: 
     
@@ -136,21 +137,23 @@ class PolynomialFiniteFieldArithmetic:
 
     @staticmethod
     def euclidianAlgorithm(p1, p2, n):
-        if str(p1) == "Empty Polynomial":
-            return p2
-        elif str(p2) == "Empty Polynomial":
-            return p1
+        if all(c == 0 for c in p1.cx):
+            return PolynomialFiniteFieldArithmetic.Poly(p2.cx.copy())
+        elif all(c == 0 for c in p2.cx):
+            return PolynomialFiniteFieldArithmetic.Poly(p1.cx.copy())
         if p1.degree() >= p2.degree():
-            greater = PolynomialFiniteFieldArithmetic.Poly(p1.cx)
-            lesser = PolynomialFiniteFieldArithmetic.Poly(p2.cx)
+            greater = PolynomialFiniteFieldArithmetic.Poly(p1.cx.copy())
+            lesser = PolynomialFiniteFieldArithmetic.Poly(p2.cx.copy())
         else:
-            lesser = PolynomialFiniteFieldArithmetic.Poly(p1.cx)
-            greater = PolynomialFiniteFieldArithmetic.Poly(p2.cx)
-        while str(lesser) != "Empty Polynomial":
-            _, r = PolynomialFiniteFieldArithmetic.modNumDiv(greater, lesser, n)
-            greater = lesser
-            lesser = r
-        return greater
+            lesser = PolynomialFiniteFieldArithmetic.Poly(p1.cx.copy())
+            greater = PolynomialFiniteFieldArithmetic.Poly(p2.cx.copy())
+        while not all(c == 0 for c in lesser.cx):
+            q, r = PolynomialFiniteFieldArithmetic.modNumDiv(greater, lesser, n)
+            print(f"Div {greater} by {lesser}: {q} and {r}")
+            greater = PolynomialFiniteFieldArithmetic.Poly(lesser.cx.copy())
+            lesser = PolynomialFiniteFieldArithmetic.Poly(r.cx.copy())
+            time.sleep(1)
+        return PolynomialFiniteFieldArithmetic.Poly(greater.cx.copy())
 
     @staticmethod
     def extendedEuclidianAlgorithm():
