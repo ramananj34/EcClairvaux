@@ -26,7 +26,6 @@ primePoly = pffa.Poly([19, 0, 1, 0, 1])
 primePoly.declareMultTable(131)
 #primePoly.printMultTable()
 
-
 #Polynomial Multiplication
 pa = pffa.Poly([-6, 0, 0, 5])
 pb = pffa.Poly([-1, 2])
@@ -38,6 +37,7 @@ mult = pffa.modMult(pa, pb, primePoly)
 mult = pffa.modMult(pc, pb, primePoly)
 #print(mult)
 
+#Polynomial Normalization
 p = pffa.Poly([4, 2, 1, 5])
 #print(pffa.normalizePoly(p, 7))
 
@@ -51,4 +51,18 @@ primePoly = pffa.Poly([3, 1, 1])
 primePoly.declareMultTable(43)
 power = 1848
 poweredPoly = pffa.Poly([3, 11])
-print(pffa.modPower(poweredPoly, power, primePoly))
+#print(pffa.modPower(poweredPoly, power, primePoly)) #Expected from Fermats Little Theorem
+
+#Polynomial Divison mod n
+pa = pffa.Poly([1, 3, 2, 1])
+pb = pffa.Poly([6, 1, 0, 5])
+mod = 7
+q, rem = pffa.modNumDiv(pa, pb, mod)
+#print(f"{q} and {rem}")
+pa = pffa.Poly([6, 19, 0, 14, 0, 0, 0, 13])
+print(pa)
+pb = pffa.Poly([17, 0, -1, 0, 0, 1])
+print(pb)
+mod = 43
+q, rem = pffa.modNumDiv(pa, pb, mod)
+print(f"{q} and {rem}")

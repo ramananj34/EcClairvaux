@@ -116,4 +116,39 @@ class PolynomialFiniteFieldArithmetic:
                 result = PolynomialFiniteFieldArithmetic.modMult(result, base, primePoly)
             base = PolynomialFiniteFieldArithmetic.modMult(base, base, primePoly)
         return result
+    
+    @staticmethod
+    def modNumDiv(di, do, n):
+        qdeg = di.degree() - do.degree()
+        rem = PolynomialFiniteFieldArithmetic.Poly(di.cx)
+        q = PolynomialFiniteFieldArithmetic.Poly([0 for _ in range(qdeg+1)])
+        if (do.degree() > di.degree()):
+            return q, rem
+        tempPoly = PolynomialFiniteFieldArithmetic.Poly([0 for _ in range(di.degree()+1)])
+        while rem.degree() >= do.degree() and rem.degree() != 0:
+            index = rem.degree() - do.degree()
+            s = nffa.modDiv(rem.cx[rem.degree()], do.cx[do.degree()], n)
+            q.cx[index] = s
+            for i in range(do.degree()+1):
+                tempPoly.cx[i+index] = nffa.modMult(s, do.cx[i], n)
+            rem = PolynomialFiniteFieldArithmetic.modSub(rem, tempPoly, n)
+        return q, rem
+
+    @staticmethod
+    def euclidianAlgorithm(p1, p2, n):
+        rem = p1.cx
+        q = []
+
+
+    @staticmethod
+    def extendedEuclidianAlgorithm():
+        pass
+
+    @staticmethod
+    def modInverse():
+        pass
+
+    def modDiv():
+        pass
+
 
