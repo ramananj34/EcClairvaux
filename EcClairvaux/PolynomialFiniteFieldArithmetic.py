@@ -163,7 +163,6 @@ class PolynomialFiniteFieldArithmetic:
             greater = PolynomialFiniteFieldArithmetic.Poly(p2.cx.copy())
         while not all(c == 0 for c in lesser.cx):
             q, r = PolynomialFiniteFieldArithmetic.modNumDiv(greater, lesser, n)
-            #print(f"{greater} and {lesser} become {lesser} and {r}")
             greater = PolynomialFiniteFieldArithmetic.Poly(lesser.cx.copy())
             lesser = PolynomialFiniteFieldArithmetic.Poly(r.cx.copy())
         return PolynomialFiniteFieldArithmetic.normalizePoly(PolynomialFiniteFieldArithmetic.Poly(greater.cx.copy()), n)
