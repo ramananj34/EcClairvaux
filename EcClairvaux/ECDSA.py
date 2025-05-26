@@ -34,5 +34,3 @@ class ECDSA:
         h2 = nffa.modMult(signature.s1, h, generator.order)
         pt = ecf.addPoints(ecf.multPoint(generator, h1, ec), ecf.multPoint(publicKey, h2, ec), ec)
         return pt.x == signature.s1
-
-    
