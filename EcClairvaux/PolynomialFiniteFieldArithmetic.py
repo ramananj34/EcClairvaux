@@ -91,7 +91,7 @@ class PolynomialFiniteFieldArithmetic:
         return PolynomialFiniteFieldArithmetic.Poly([nffa.randModVal(n) for i in range(maxDegree + 1)])
 
     @staticmethod
-    def modMult(p1, p2, pn):
+    def modPolyMult(p1, p2, pn):
         newPolyDegrees = [0 for _ in range(p1.degree() + p2.degree()+1)]
         for i in range(len(newPolyDegrees)):
             for j in range(i+1):
@@ -103,9 +103,15 @@ class PolynomialFiniteFieldArithmetic:
             for i in range(pn.degree(), len(newPolyDegrees)):
                 for j in range(pn.degree()):
                     result[j] = nffa.modAdd(result[j], nffa.modMult(newPolyDegrees[i], pn.multTable[i][j], pn.p), pn.p)
-        while(result[-1] == 0):
-            result = result[:-1]
-        return PolynomialFiniteFieldArithmetic.Poly(result)
+        return PolynomialFiniteFieldArithmetic.Poly(PolynomialFiniteFieldArithmetic.untrail0s(result))
+    
+    @staticmethod
+    def modNumMult(a, b, p):
+        res = [0] * (len(a.cx) + len(b.cx) - 1)
+        for i in range(len(a.cx)):
+            for j in range(len(b.cx)):
+                res[i + j] = (res[i + j] + a.cx[i] * b.cx[j]) % p
+        return PolynomialFiniteFieldArithmetic.Poly(PolynomialFiniteFieldArithmetic.untrail0s(res))
     
     @staticmethod
     def normalizePoly(p, n):
@@ -122,8 +128,8 @@ class PolynomialFiniteFieldArithmetic:
         base = PolynomialFiniteFieldArithmetic.Poly(poly.cx)
         for bit in bits:
             if bit == "1":
-                result = PolynomialFiniteFieldArithmetic.modMult(result, base, primePoly)
-            base = PolynomialFiniteFieldArithmetic.modMult(base, base, primePoly)
+                result = PolynomialFiniteFieldArithmetic.modPolyMult(result, base, primePoly)
+            base = PolynomialFiniteFieldArithmetic.modPolyMult(base, base, primePoly)
         return result
 
     @staticmethod
@@ -143,11 +149,7 @@ class PolynomialFiniteFieldArithmetic:
                 num = [nffa.modSub(u, v, n) for u, v in zip(num, d)]
             num.pop()
             den.pop(0)
-        num = [x % n for x in num if x != 0 or any(num[num.index(x)+1:])]
-        quot = [x % n for x in quot]
-        num = PolynomialFiniteFieldArithmetic.untrail0s(num)
-        quot = PolynomialFiniteFieldArithmetic.untrail0s(quot)
-        return PolynomialFiniteFieldArithmetic.Poly(quot), PolynomialFiniteFieldArithmetic.Poly(num)
+        return PolynomialFiniteFieldArithmetic.Poly(PolynomialFiniteFieldArithmetic.untrail0s(quot)), PolynomialFiniteFieldArithmetic.Poly(PolynomialFiniteFieldArithmetic.untrail0s(num))
     
     @staticmethod
     def euclidianAlgorithm(p1, p2, n):
@@ -168,13 +170,42 @@ class PolynomialFiniteFieldArithmetic:
         return PolynomialFiniteFieldArithmetic.normalizePoly(PolynomialFiniteFieldArithmetic.Poly(greater.cx.copy()), n)
 
     @staticmethod
-    def extendedEuclidianAlgorithm():
-        pass
+    def extendedEuclidianAlgorithm(p1, p2, p):
+        if p1.degree() >= p2.degree():
+            greater = p1.cx.copy()
+            lesser = p2.cx.copy()
+            flag = False
+        else:
+            lesser = p1.cx.copy()
+            greater = p2.cx.copy()
+            flag = True
+        s0, s1 = [1], [0]
+        t0, t1 = [0], [1]
+        while lesser != [0]:
+            q, r = PolynomialFiniteFieldArithmetic.modNumDiv(PolynomialFiniteFieldArithmetic.Poly(greater), PolynomialFiniteFieldArithmetic.Poly(lesser), p)
+            greater, lesser = lesser, r.cx
+            s0, s1 = s1, PolynomialFiniteFieldArithmetic.modSub(PolynomialFiniteFieldArithmetic.Poly(s0), PolynomialFiniteFieldArithmetic.modNumMult(q, PolynomialFiniteFieldArithmetic.Poly(s1), p), p).cx
+            t0, t1 = t1, PolynomialFiniteFieldArithmetic.modSub(PolynomialFiniteFieldArithmetic.Poly(t0), PolynomialFiniteFieldArithmetic.modNumMult(q, PolynomialFiniteFieldArithmetic.Poly(t1), p), p).cx
+        if (greater[-1] != 1):
+            inverse = nffa.modInverse(greater[-1], p)
+            t0 = PolynomialFiniteFieldArithmetic.Poly([nffa.modMult(inverse, c, p) for c in t0])
+            s0 = PolynomialFiniteFieldArithmetic.Poly([nffa.modMult(inverse, c, p) for c in s0])
+        else: 
+            t0 = PolynomialFiniteFieldArithmetic.Poly(t0)
+            s0 = PolynomialFiniteFieldArithmetic.Poly(s0)
+        if flag:
+            return t0, s0
+        else:
+            return s0, t0
+        
+    @staticmethod
+    def modInverse(p, primePoly):
+        if (PolynomialFiniteFieldArithmetic.euclidianAlgorithm(p, primePoly, primePoly.p) != PolynomialFiniteFieldArithmetic.Poly([1])):
+            return None
+        x, _ = PolynomialFiniteFieldArithmetic.extendedEuclidianAlgorithm(p, primePoly, primePoly.p)
+        return x
 
     @staticmethod
-    def modInverse():
-        pass
-
-    @staticmethod
-    def modPolyDiv():
-        pass
+    def modPolyDiv(p, q, primePoly):
+        invq = PolynomialFiniteFieldArithmetic.modInverse(q, primePoly)
+        return PolynomialFiniteFieldArithmetic.modPolyMult(p, invq, primePoly)

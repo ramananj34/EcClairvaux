@@ -32,9 +32,9 @@ pb = pffa.Poly([-1, 2])
 pc = pffa.Poly([-6, 5])
 primePoly = primePoly = pffa.Poly([5, 3, 1, 2, 1])
 primePoly.declareMultTable(4219)
-mult = pffa.modMult(pa, pb, primePoly)
+mult = pffa.modPolyMult(pa, pb, primePoly)
 assert str(mult) == "4194x^3 + 4209x^2 + 4177x^1 + 4175x^0"
-mult = pffa.modMult(pc, pb, primePoly)
+mult = pffa.modPolyMult(pc, pb, primePoly)
 assert str(mult) == "10x^2 + 4202x^1 + 6x^0"
 
 #Polynomial Normalization
@@ -86,7 +86,7 @@ assert f"{q} and {rem}" == "8x^0 and Empty Polynomial"
 a = pffa.Poly([4, -1, 1])
 b = pffa.Poly([1, 12, 1])
 assert str(pffa.euclidianAlgorithm(a, b, 17)) == "1x^1 + 5x^0"
-assert str(pffa.euclidianAlgorithm(a, b, 17)) == str(pffa.euclidianAlgorithm(a, b, 17))
+assert str(pffa.euclidianAlgorithm(a, b, 17)) == str(pffa.euclidianAlgorithm(b, a, 17))
 a = pffa.Poly([1, 2, 0, 2, 1])
 b = pffa.Poly([1, 0, 2, 1])
 assert str(pffa.euclidianAlgorithm(a, b, 3)) == "1x^0"
@@ -98,4 +98,51 @@ b = pffa.Poly([0, 5, 4, 3, 2, 1])
 assert pffa.euclidianAlgorithm(a, b, 7) == pffa.Poly([0, 5, 4, 3, 2, 1])
 a = pffa.Poly([3, 3, 0, 3, 2])
 b = pffa.Poly([1, 4, 0, 1])
-print(pffa.euclidianAlgorithm(a, b, 5))
+assert str(pffa.euclidianAlgorithm(a, b, 5)) == "1x^1 + 2x^0"
+
+#extendedEuclidianAlgorithm:
+a = pffa.Poly([4, -1, 1])
+b = pffa.Poly([1, 12, 1])
+mod = 17
+a2, b2 = pffa.extendedEuclidianAlgorithm(a,b,mod)
+assert pffa.euclidianAlgorithm(a, b, mod) == pffa.modAdd(pffa.modNumMult(a, a2, mod), pffa.modNumMult(b, b2, mod), mod)
+a = pffa.Poly([1, 2, 0, 2, 1])
+b = pffa.Poly([1, 0, 2, 1])
+mod = 3
+a2, b2 = pffa.extendedEuclidianAlgorithm(a,b,mod)
+assert pffa.euclidianAlgorithm(a, b, mod) == pffa.modAdd(pffa.modNumMult(a, a2, mod), pffa.modNumMult(b, b2, mod), mod)
+a = pffa.Poly([3, 2, 3, 6, 3])
+b = pffa.Poly([1, 5, 0, 2])
+mod = 7
+a2, b2 = pffa.extendedEuclidianAlgorithm(a,b,mod)
+assert pffa.euclidianAlgorithm(a, b, mod) == pffa.modAdd(pffa.modNumMult(a, a2, mod), pffa.modNumMult(b, b2, mod), mod)
+a = pffa.Poly([0, 5, 4, 3, 2, 1])
+b = pffa.Poly([0, 5, 4, 3, 2, 1])
+mod = 7
+a2, b2 = pffa.extendedEuclidianAlgorithm(a,b,mod)
+assert pffa.euclidianAlgorithm(a, b, mod) == pffa.modAdd(pffa.modNumMult(a, a2, mod), pffa.modNumMult(b, b2, mod), mod)
+a = pffa.Poly([3, 3, 0, 3, 2])
+b = pffa.Poly([1, 4, 0, 1])
+mod = 5
+a2, b2 = pffa.extendedEuclidianAlgorithm(a,b,mod)
+assert pffa.euclidianAlgorithm(a, b, mod) == pffa.modAdd(pffa.modNumMult(a, a2, mod), pffa.modNumMult(b, b2, mod), mod)
+
+
+"""
+#Inverse
+a = pffa.Poly([17, 1])
+pPoly = pffa.Poly([3, 1, 1])
+pPoly.declareMultTable(43)
+print(pffa.modInverse(a, pPoly))
+
+
+pPoly = pffa.Poly([3, 1, 1])
+pPoly.declareMultTable(43)
+
+#Division
+a = pffa.Poly([17, 1])
+print(pffa.extendedEuclidianAlgorithm(a, pPoly, pPoly.p))
+#print(pffa.modPolyDiv(a, b, pPoly))
+"""
+
+print("All tests passed")
