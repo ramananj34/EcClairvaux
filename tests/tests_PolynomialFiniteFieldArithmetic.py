@@ -77,20 +77,25 @@ pa = pffa.Poly([5])
 pb = pffa.Poly([5])
 q, rem = pffa.modNumDiv(pa, pb, mod)
 assert f"{q} and {rem}" == "1x^0 and Empty Polynomial"
+pa = pffa.Poly([5])
+pb = pffa.Poly([6])
+q, rem = pffa.modNumDiv(pa, pb, mod)
+assert f"{q} and {rem}" == "8x^0 and Empty Polynomial"
 
-#euclidian Algorithm
-a = pffa.Poly([12, 4, 13, 1])
-b = pffa.Poly([11, 16, 2, 22, 1])
-#print(pffa.euclidianAlgorithm(a, b, 23))
-a = pffa.Poly([6, 7, 1])
-b = pffa.Poly([-6, -5, 1])
-#print(pffa.euclidianAlgorithm(a, b, 23))
-a = pffa.Poly([6, 7, 1])
-b = pffa.Poly([6, 7, 1])
-#print(pffa.euclidianAlgorithm(a, b, 23))
-a = pffa.Poly([-2, -1, 1, 0, -2, 1])
-b = pffa.Poly([-2, -1, -1, 1])
-#print(pffa.euclidianAlgorithm(a, b, 23))
-a = pffa.Poly([-2, -1, 1, 0, -2, 5])
-b = pffa.Poly([-2, -1, -1, 1])
-#print(pffa.euclidianAlgorithm(a, b, 23))
+#Euclidian Algorithm
+a = pffa.Poly([4, -1, 1])
+b = pffa.Poly([1, 12, 1])
+assert str(pffa.euclidianAlgorithm(a, b, 17)) == "1x^1 + 5x^0"
+assert str(pffa.euclidianAlgorithm(a, b, 17)) == str(pffa.euclidianAlgorithm(a, b, 17))
+a = pffa.Poly([1, 2, 0, 2, 1])
+b = pffa.Poly([1, 0, 2, 1])
+assert str(pffa.euclidianAlgorithm(a, b, 3)) == "1x^0"
+a = pffa.Poly([3, 2, 3, 6, 3])
+b = pffa.Poly([1, 5, 0, 2])
+assert str(pffa.euclidianAlgorithm(a, b, 7)) == "1x^1 + 4x^0"
+a = pffa.Poly([0, 5, 4, 3, 2, 1])
+b = pffa.Poly([0, 5, 4, 3, 2, 1])
+assert pffa.euclidianAlgorithm(a, b, 7) == pffa.Poly([0, 5, 4, 3, 2, 1])
+a = pffa.Poly([3, 3, 0, 3, 2])
+b = pffa.Poly([1, 4, 0, 1])
+print(pffa.euclidianAlgorithm(a, b, 5))
