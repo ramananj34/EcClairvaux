@@ -208,4 +208,6 @@ class PolynomialFiniteFieldArithmetic:
     @staticmethod
     def modPolyDiv(p, q, primePoly):
         invq = PolynomialFiniteFieldArithmetic.modInverse(q, primePoly)
+        if (invq is None):
+            raise ValueError("Can not divide by 0")
         return PolynomialFiniteFieldArithmetic.modPolyMult(p, invq, primePoly)

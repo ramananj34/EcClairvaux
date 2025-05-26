@@ -126,23 +126,19 @@ b = pffa.Poly([1, 4, 0, 1])
 mod = 5
 a2, b2 = pffa.extendedEuclidianAlgorithm(a,b,mod)
 assert pffa.euclidianAlgorithm(a, b, mod) == pffa.modAdd(pffa.modNumMult(a, a2, mod), pffa.modNumMult(b, b2, mod), mod)
+b2, a2 = pffa.extendedEuclidianAlgorithm(b, a, mod)
+assert pffa.euclidianAlgorithm(a, b, mod) == pffa.modAdd(pffa.modNumMult(a, a2, mod), pffa.modNumMult(b, b2, mod), mod)
 
-
-"""
 #Inverse
 a = pffa.Poly([17, 1])
 pPoly = pffa.Poly([3, 1, 1])
 pPoly.declareMultTable(43)
-print(pffa.modInverse(a, pPoly))
-
-
-pPoly = pffa.Poly([3, 1, 1])
-pPoly.declareMultTable(43)
+assert str(pffa.modInverse(a, pPoly)) == "5x^1 + 6x^0"
 
 #Division
 a = pffa.Poly([17, 1])
-print(pffa.extendedEuclidianAlgorithm(a, pPoly, pPoly.p))
-#print(pffa.modPolyDiv(a, b, pPoly))
-"""
+pPoly = pffa.Poly([3, 1, 1])
+pPoly.declareMultTable(43)
+assert str(pffa.modPolyDiv(a, a, pPoly)) == "1x^0"
 
 print("All tests passed")
