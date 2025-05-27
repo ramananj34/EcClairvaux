@@ -214,7 +214,13 @@ class PolynomialFiniteFieldArithmetic:
     
     @staticmethod
     def getContent(p):
-        pass
+        #Returns the gcd of all the coefficients of a polynomail
+        gcd = p.cx[-1]
+        i = p.degree()-1
+        while gcd != 1 and i >= 0:
+            gcd = nffa.euclidianAlgorithm(gcd, p.cx[i])
+            i-=1
+        return gcd
 
     @staticmethod
     def modPseudoDivide():

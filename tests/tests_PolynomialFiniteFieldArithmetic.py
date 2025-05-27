@@ -141,10 +141,18 @@ pPoly = pffa.Poly([3, 1, 1])
 pPoly.declareMultTable(43)
 assert str(pffa.modPolyDiv(a, a, pPoly)) == "1x^0"
 
-print("All tests passed")
-
-
-#Content
+#Content with help from chatGPT
+assert pffa.getContent(pffa.Poly([0, 1])) == 1
+assert pffa.getContent(pffa.Poly([5])) == 5
+assert pffa.getContent(pffa.Poly([0])) == 0
+assert pffa.getContent(pffa.Poly([3, 4, 5])) == 1
+assert pffa.getContent(pffa.Poly([6, 12, 18])) == 6 
+assert pffa.getContent(pffa.Poly([2, 4, 6])) == 2
+assert pffa.getContent(pffa.Poly([3, 6, 9])) == 3
+assert pffa.getContent(pffa.Poly([4, 8, 12, 0, 0])) == 4
+assert pffa.getContent(pffa.Poly([4, 4, 4, 4, 4, 1])) == 1
+assert pffa.getContent(pffa.Poly([0, 0, 6, 12])) == 6
+assert pffa.getContent(pffa.Poly([0, 0, 0])) == 0
 
 #Pseudo-Division
 
@@ -153,3 +161,5 @@ print("All tests passed")
 #Quad Residues
 
 #Square Root
+
+print("All tests passed")
