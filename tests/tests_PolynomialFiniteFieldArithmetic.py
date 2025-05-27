@@ -142,3 +142,14 @@ pPoly.declareMultTable(43)
 assert str(pffa.modPolyDiv(a, a, pPoly)) == "1x^0"
 
 print("All tests passed")
+
+
+#Content
+
+#Pseudo-Division
+
+#Resultant
+
+#Quad Residues
+
+#Square Root
