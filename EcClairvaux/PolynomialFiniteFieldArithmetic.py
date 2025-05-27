@@ -211,3 +211,23 @@ class PolynomialFiniteFieldArithmetic:
         if (invq is None):
             raise ValueError("Can not divide by 0")
         return PolynomialFiniteFieldArithmetic.modPolyMult(p, invq, primePoly)
+    
+    @staticmethod
+    def getContent(p):
+        pass
+
+    @staticmethod
+    def modPseudoDivide():
+        pass
+
+    @staticmethod
+    def resultantSymbol():
+        pass
+
+    @staticmethod
+    def quadResidue():
+        pass
+
+    @staticmethod
+    def modSqrt():
+        pass
