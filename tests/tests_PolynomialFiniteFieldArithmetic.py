@@ -148,6 +148,7 @@ assert pffa.getContent(pffa.Poly([0])) == 0
 assert pffa.getContent(pffa.Poly([3, 4, 5])) == 1
 assert pffa.getContent(pffa.Poly([6, 12, 18])) == 6 
 assert pffa.getContent(pffa.Poly([2, 4, 6])) == 2
+assert pffa.getContent(pffa.Poly([6, 4, 2])) == 2
 assert pffa.getContent(pffa.Poly([3, 6, 9])) == 3
 assert pffa.getContent(pffa.Poly([4, 8, 12, 0, 0])) == 4
 assert pffa.getContent(pffa.Poly([4, 4, 4, 4, 4, 1])) == 1
@@ -155,6 +156,12 @@ assert pffa.getContent(pffa.Poly([0, 0, 6, 12])) == 6
 assert pffa.getContent(pffa.Poly([0, 0, 0])) == 0
 
 #Pseudo-Division
+pa = pffa.Poly([1, 3, 2, 1])
+pb = pffa.Poly([6, 1, 0, 5])
+mod = 7
+q, rem = pffa.modPseudoDivide(pa, pb, mod)
+print(f"{q} and {rem}")
+#assert f"{q} and {rem}" == "3x^0 and 2x^2 + 4x^0"
 
 #Resultant
 

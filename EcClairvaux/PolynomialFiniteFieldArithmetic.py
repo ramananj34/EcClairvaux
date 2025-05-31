@@ -57,6 +57,7 @@ class PolynomialFiniteFieldArithmetic:
                     print(str(self.multTable[i][-j-1]) + "   ", end="")
                 print()
 
+    @staticmethod
     def untrail0s(arr):
         newArr = [x for x in arr]
         while newArr and newArr[-1] == 0:
@@ -223,10 +224,38 @@ class PolynomialFiniteFieldArithmetic:
         return gcd
 
     @staticmethod
-    def modPseudoDivide():
-        pass
+    def modPseudoDivide(p, q, n):
+        num = PolynomialFiniteFieldArithmetic.Poly([a for a in p.cx])
+        denom = PolynomialFiniteFieldArithmetic.Poly([a for a in q.cx])
+        Q = PolynomialFiniteFieldArithmetic.Poly([0 for _ in p.cx])
+        R = PolynomialFiniteFieldArithmetic.Poly([a for a in p.cx])
+        e = p.degree() - q.degree() + 1
+        d = q.cx[q.degree()]
+        while R.degree() >= denom.degree():
+            S = PolynomialFiniteFieldArithmetic.Poly([0] * (R.degree() - denom.degree()))
+            S.cx[S.degree()] = R.cx[R.degree()]
+            for i in range(0, Q.degree()+1):
+                Q.cx[i] = nffa.modMult(Q.cx[i], d, n)
+            Q = PolynomialFiniteFieldArithmetic.modAdd(Q, S, n)
+            for i in range(0, R.degree()+1):
+                R.cx[i] = nffa.modMult(R.cx[i], d, n)
+            k = S.degree()
+            T = PolynomialFiniteFieldArithmetic.Poly([0]*(S.degree() + denom.degree()))
+            for i in range(0, denom.degree()+1):
+                T.cx[i+k]=nffa.modMult(denom.cx[i]+S.cx[k])
+            R = PolynomialFiniteFieldArithmetic.modSub(R, T, n)
+            e-=1
+        if e >= 1:
+            d = nffa.modPow(d, e, n)
+            for i in range(0, Q.degree()+1):
+                Q.cx[i] = nffa.modMult(Q.cx[i], d, n)
+            for i in range(0, R.degree()+1):
+                R.cx[i] = nffa.modMult(R.cx[i], d, n)
+        return Q, R
 
-    @staticmethod
+
+
+    @staticmethod 
     def resultantSymbol():
         pass
 
