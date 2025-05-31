@@ -225,14 +225,15 @@ class PolynomialFiniteFieldArithmetic:
 
     @staticmethod
     def modPseudoDivide(p, q, n):
-        num = PolynomialFiniteFieldArithmetic.Poly([a for a in p.cx])
+        if p.degree() < q.degree():
+            return PolynomialFiniteFieldArithmetic.Poly([0]), PolynomialFiniteFieldArithmetic.Poly(p.cx)
         denom = PolynomialFiniteFieldArithmetic.Poly([a for a in q.cx])
-        Q = PolynomialFiniteFieldArithmetic.Poly([0 for _ in p.cx])
+        Q = PolynomialFiniteFieldArithmetic.Poly([0])
         R = PolynomialFiniteFieldArithmetic.Poly([a for a in p.cx])
         e = p.degree() - q.degree() + 1
         d = q.cx[q.degree()]
         while R.degree() >= denom.degree():
-            S = PolynomialFiniteFieldArithmetic.Poly([0] * (R.degree() - denom.degree()))
+            S = PolynomialFiniteFieldArithmetic.Poly([0] * (R.degree() - denom.degree()+1))
             S.cx[S.degree()] = R.cx[R.degree()]
             for i in range(0, Q.degree()+1):
                 Q.cx[i] = nffa.modMult(Q.cx[i], d, n)
@@ -240,9 +241,9 @@ class PolynomialFiniteFieldArithmetic:
             for i in range(0, R.degree()+1):
                 R.cx[i] = nffa.modMult(R.cx[i], d, n)
             k = S.degree()
-            T = PolynomialFiniteFieldArithmetic.Poly([0]*(S.degree() + denom.degree()))
+            T = PolynomialFiniteFieldArithmetic.Poly([0]*(S.degree() + denom.degree()+1))
             for i in range(0, denom.degree()+1):
-                T.cx[i+k]=nffa.modMult(denom.cx[i]+S.cx[k])
+                T.cx[i+k]=nffa.modMult(denom.cx[i], S.cx[k], n)
             R = PolynomialFiniteFieldArithmetic.modSub(R, T, n)
             e-=1
         if e >= 1:
@@ -251,7 +252,7 @@ class PolynomialFiniteFieldArithmetic:
                 Q.cx[i] = nffa.modMult(Q.cx[i], d, n)
             for i in range(0, R.degree()+1):
                 R.cx[i] = nffa.modMult(R.cx[i], d, n)
-        return Q, R
+        return PolynomialFiniteFieldArithmetic.Poly(PolynomialFiniteFieldArithmetic.untrail0s(Q.cx)), PolynomialFiniteFieldArithmetic.Poly(PolynomialFiniteFieldArithmetic.untrail0s(R.cx))
 
 
 

@@ -160,8 +160,7 @@ pa = pffa.Poly([1, 3, 2, 1])
 pb = pffa.Poly([6, 1, 0, 5])
 mod = 7
 q, rem = pffa.modPseudoDivide(pa, pb, mod)
-print(f"{q} and {rem}")
-#assert f"{q} and {rem}" == "3x^0 and 2x^2 + 4x^0"
+assert f"{q} and {rem}" == "1x^0 and 3x^2 + 6x^0"
 
 #Resultant
 
