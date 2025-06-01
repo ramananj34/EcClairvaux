@@ -30,7 +30,7 @@ primePoly.declareMultTable(131)
 pa = pffa.Poly([-6, 0, 0, 5])
 pb = pffa.Poly([-1, 2])
 pc = pffa.Poly([-6, 5])
-primePoly = primePoly = pffa.Poly([5, 3, 1, 2, 1])
+primePoly = pffa.Poly([5, 3, 1, 2, 1])
 primePoly.declareMultTable(4219)
 mult = pffa.modPolyMult(pa, pb, primePoly)
 assert str(mult) == "4194x^3 + 4209x^2 + 4177x^1 + 4175x^0"
@@ -193,8 +193,17 @@ p1 = pffa.Poly([-5, 2, 8, -3, -3, 0, 1, 0, 1])
 p2 = pffa.Poly([21, -9, -4, 0, 5, 0, 3])
 assert (pffa.resultant(p1, p2, mod)) == 260708
 
-
 #Quad Residues
+primePoly = pffa.Poly([5, 3, 1, 2, 1])
+primePoly.declareMultTable(4219)
+p = pffa.Poly([1, 2, 3])
+p2 = pffa.modPolyMult(p, p, primePoly)
+assert pffa.isQuadResidue(p2, primePoly)
+primePoly = pffa.Poly([3, 1, 1])
+primePoly.declareMultTable(43)
+p = pffa.Poly([33, 15])
+assert not pffa.isQuadResidue(p, primePoly)
+
 
 #Square Root
 

@@ -302,8 +302,9 @@ class PolynomialFiniteFieldArithmetic:
         return result
 
     @staticmethod
-    def quadResidue():
-        pass
+    def isQuadResidue(p, primePoly):
+        resultant = PolynomialFiniteFieldArithmetic.resultant(p, primePoly, primePoly.p)
+        return 1 == nffa.modPow(resultant, ((primePoly.p-1)//2), primePoly.p)
 
     @staticmethod
     def modSqrt():
