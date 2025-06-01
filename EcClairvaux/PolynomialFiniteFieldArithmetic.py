@@ -253,48 +253,51 @@ class PolynomialFiniteFieldArithmetic:
             for i in range(0, R.degree()+1):
                 R.cx[i] = nffa.modMult(R.cx[i], d, n)
         return PolynomialFiniteFieldArithmetic.Poly(PolynomialFiniteFieldArithmetic.untrail0s(Q.cx)), PolynomialFiniteFieldArithmetic.Poly(PolynomialFiniteFieldArithmetic.untrail0s(R.cx))
-
-    @staticmethod 
-    def resultant(p, q, n):
-        if p.degree() == -1 or q.degree() == -1:
+    
+    @staticmethod
+    def resultant(A, B, n):
+        if (A.degree() == 0 and A.cx[0] == 0) or (B.degree() == 0 and B.cx[0] == 0):
             return 0
-        p2 = PolynomialFiniteFieldArithmetic.Poly([a for a in p.cx])
-        q2 = PolynomialFiniteFieldArithmetic.Poly([a for a in q.cx])
-        contp = PolynomialFiniteFieldArithmetic.getContent(p2)
-        contq = PolynomialFiniteFieldArithmetic.getContent(q2)
-        ta = 1
-        tb = 1
-        if (contp > 1):
-            p2.cx = [nffa.modDiv(a, contp, n) for a in p2.cx]
-            ta = nffa.modPow(contp, q2.degree(), n)
-        if (contq > 1):
-            q2.cx = [nffa.modDiv(a, contq, n) for a in q2.cx]
-            tb = nffa.modPow(contq, p2.degree(), n)
-        g = h = s = 1
-        if (p2.degree() < q2.degree()):
-            p2, q2 = q2, p2
-        while q2.degree() > 0:
-            delta = p2.degree() - q2.degree()
-            if (p2.degree()%2 == 1 and q2.degree()%2 == 1):
+        contA = PolynomialFiniteFieldArithmetic.getContent(A)
+        contB = PolynomialFiniteFieldArithmetic.getContent(B)
+        if contA != 1:
+            Aa = PolynomialFiniteFieldArithmetic.Poly([nffa.modDiv(c, contA, n) for c in A.cx])
+            ta = nffa.modPow(a, B.degree(), n)
+        else:
+            Aa = PolynomialFiniteFieldArithmetic.Poly(A.cx[:])
+            ta = 1
+        if b != 1:
+            Bb = PolynomialFiniteFieldArithmetic.Poly([nffa.modDiv(c, contB, n) for c in B.cx])
+            tb = nffa.modPow(b, A.degree(), n)
+        else:
+            Bb = PolynomialFiniteFieldArithmetic.Poly(B.cx[:])
+            tb = 1
+        g = 1
+        h = 1
+        s = 1
+        if Aa.degree() < Bb.degree():
+            Aa, Bb = Bb, Aa
+        while Bb.degree() > 0:
+            delta = Aa.degree() - Bb.degree()
+            if Aa.degree() % 2 == 1 and Bb.degree() % 2 == 1:
                 s = -s
-            q, r = PolynomialFiniteFieldArithmetic.modPseudoDivide(p2, q2, n)
-            p2 = q2
-            contp = nffa.modPow(h, delta, n)
-            contq = nffa.modMult(contp, g, n)
-            q2.cx = [nffa.modDiv(item, contq, n) for item in r.cx]
-            g = p2.cx[p2.degree()]
+            _, R = PolynomialFiniteFieldArithmetic.modPseudoDivide(Aa, Bb, n)
+            Aa = Bb
+            a = nffa.modPow(h, delta, n)
+            b = nffa.modMult(a, g, n)
+            Bb = PolynomialFiniteFieldArithmetic.Poly([nffa.modDiv(c, b, n) for c in R.cx])
+            g = Aa.cx[Aa.degree()]
             i = nffa.modSub(1, delta, n)
             a = nffa.modPow(h, i, n)
             b = nffa.modPow(g, delta, n)
             h = nffa.modMult(a, b, n)
-        i = nffa.modSub(1, p2.degree(), n)
+        i = nffa.modSub(1, Aa.degree(), n)
         a = nffa.modPow(h, i, n)
-        b = nffa.modPow(q2.cx[0], p2.degree(), n)
+        b = nffa.modPow(Bb.cx[0], Aa.degree(), n)
         h = nffa.modMult(a, b, n)
         result = nffa.modMult(h, ta, n)
         result = nffa.modMult(result, tb, n)
-        if (s < 0):
-            print("hi")
+        if s < 0:
             result = nffa.modNegate(result, n)
         return result
 
