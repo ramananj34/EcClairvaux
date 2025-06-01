@@ -254,10 +254,8 @@ class PolynomialFiniteFieldArithmetic:
                 R.cx[i] = nffa.modMult(R.cx[i], d, n)
         return PolynomialFiniteFieldArithmetic.Poly(PolynomialFiniteFieldArithmetic.untrail0s(Q.cx)), PolynomialFiniteFieldArithmetic.Poly(PolynomialFiniteFieldArithmetic.untrail0s(R.cx))
 
-
-
     @staticmethod 
-    def resultantSymbol():
+    def resultant(p, q):
         pass
 
     @staticmethod
