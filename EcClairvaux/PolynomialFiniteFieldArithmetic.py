@@ -1,5 +1,4 @@
 from EcClairvaux import NumericalFiniteFieldArithmetic as nffa
-import time
 
 class PolynomialFiniteFieldArithmetic: 
     
@@ -215,7 +214,6 @@ class PolynomialFiniteFieldArithmetic:
     
     @staticmethod
     def getContent(p):
-        #Returns the gcd of all the coefficients of a polynomail
         gcd = p.cx[-1]
         i = p.degree()-1
         while gcd != 1 and i >= 0:
