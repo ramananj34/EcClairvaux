@@ -204,7 +204,6 @@ primePoly.declareMultTable(43)
 p = pffa.Poly([33, 15])
 assert not pffa.isQuadResidue(p, primePoly)
 
-
 #Square Root
 
 print("All tests passed")
