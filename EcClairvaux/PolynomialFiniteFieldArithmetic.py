@@ -262,13 +262,13 @@ class PolynomialFiniteFieldArithmetic:
         contB = PolynomialFiniteFieldArithmetic.getContent(B)
         if contA != 1:
             Aa = PolynomialFiniteFieldArithmetic.Poly([nffa.modDiv(c, contA, n) for c in A.cx])
-            ta = nffa.modPow(a, B.degree(), n)
+            ta = nffa.modPow(contA, B.degree(), n)
         else:
             Aa = PolynomialFiniteFieldArithmetic.Poly(A.cx[:])
             ta = 1
-        if b != 1:
+        if contB != 1:
             Bb = PolynomialFiniteFieldArithmetic.Poly([nffa.modDiv(c, contB, n) for c in B.cx])
-            tb = nffa.modPow(b, A.degree(), n)
+            tb = nffa.modPow(contB, A.degree(), n)
         else:
             Bb = PolynomialFiniteFieldArithmetic.Poly(B.cx[:])
             tb = 1
@@ -287,11 +287,11 @@ class PolynomialFiniteFieldArithmetic:
             b = nffa.modMult(a, g, n)
             Bb = PolynomialFiniteFieldArithmetic.Poly([nffa.modDiv(c, b, n) for c in R.cx])
             g = Aa.cx[Aa.degree()]
-            i = nffa.modSub(1, delta, n)
+            i = 1 - delta
             a = nffa.modPow(h, i, n)
             b = nffa.modPow(g, delta, n)
             h = nffa.modMult(a, b, n)
-        i = nffa.modSub(1, Aa.degree(), n)
+        i = 1 - Aa.degree()
         a = nffa.modPow(h, i, n)
         b = nffa.modPow(Bb.cx[0], Aa.degree(), n)
         h = nffa.modMult(a, b, n)
