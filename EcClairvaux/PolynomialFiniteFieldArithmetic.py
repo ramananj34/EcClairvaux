@@ -260,8 +260,22 @@ class PolynomialFiniteFieldArithmetic:
             return 0
         p2 = PolynomialFiniteFieldArithmetic.Poly([a for a in p.cx])
         q2 = PolynomialFiniteFieldArithmetic.Poly([a for a in q.cx])
-        contA = PolynomialFiniteFieldArithmetic.getContent(p)
-        contB = PolynomialFiniteFieldArithmetic.getContent(q)
+        contp = PolynomialFiniteFieldArithmetic.getContent(p2)
+        contq = PolynomialFiniteFieldArithmetic.getContent(q2)
+        ta = 0
+        tb = 0
+        if (contp > 1):
+            p2.cx = [a/contp for a in p2.cx]
+            ta = contp**q2.degree()
+        if (contq > 1):
+            q2.cx = [a/contq for a in q2.cx]
+            tb = contq**p2.degree()
+        g, h, s = 1
+        if (p2.degree() < q2.degree()):
+            temp = p2.cx
+            p2.cx = q2.cx
+            q2.cx = temp
+        
 
 
     @staticmethod
