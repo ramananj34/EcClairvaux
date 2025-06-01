@@ -255,28 +255,48 @@ class PolynomialFiniteFieldArithmetic:
         return PolynomialFiniteFieldArithmetic.Poly(PolynomialFiniteFieldArithmetic.untrail0s(Q.cx)), PolynomialFiniteFieldArithmetic.Poly(PolynomialFiniteFieldArithmetic.untrail0s(R.cx))
 
     @staticmethod 
-    def resultant(p, q):
+    def resultant(p, q, n):
         if p.degree() == -1 or q.degree() == -1:
             return 0
         p2 = PolynomialFiniteFieldArithmetic.Poly([a for a in p.cx])
         q2 = PolynomialFiniteFieldArithmetic.Poly([a for a in q.cx])
         contp = PolynomialFiniteFieldArithmetic.getContent(p2)
         contq = PolynomialFiniteFieldArithmetic.getContent(q2)
-        ta = 0
-        tb = 0
+        ta = 1
+        tb = 1
         if (contp > 1):
-            p2.cx = [a/contp for a in p2.cx]
-            ta = contp**q2.degree()
+            p2.cx = [nffa.modDiv(a, contp, n) for a in p2.cx]
+            ta = nffa.modPow(contp, q2.degree(), n)
         if (contq > 1):
-            q2.cx = [a/contq for a in q2.cx]
-            tb = contq**p2.degree()
-        g, h, s = 1
+            q2.cx = [nffa.modDiv(a, contq, n) for a in q2.cx]
+            tb = nffa.modPow(contq, p2.degree(), n)
+        g = h = s = 1
         if (p2.degree() < q2.degree()):
-            temp = p2.cx
-            p2.cx = q2.cx
-            q2.cx = temp
-        
-
+            p2, q2 = q2, p2
+        while q2.degree() > 0:
+            delta = p2.degree() - q2.degree()
+            if (p2.degree()%2 == 1 and q2.degree()%2 == 1):
+                s = -s
+            q, r = PolynomialFiniteFieldArithmetic.modPseudoDivide(p2, q2, n)
+            p2 = q2
+            contp = nffa.modPow(h, delta, n)
+            contq = nffa.modMult(contp, g, n)
+            q2.cx = [nffa.modDiv(item, contq, n) for item in r.cx]
+            g = p2.cx[p2.degree()]
+            i = nffa.modSub(1, delta, n)
+            a = nffa.modPow(h, i, n)
+            b = nffa.modPow(g, delta, n)
+            h = nffa.modMult(a, b, n)
+        i = nffa.modSub(1, p2.degree(), n)
+        a = nffa.modPow(h, i, n)
+        b = nffa.modPow(q2.cx[0], p2.degree(), n)
+        h = nffa.modMult(a, b, n)
+        result = nffa.modMult(h, ta, n)
+        result = nffa.modMult(result, tb, n)
+        if (s < 0):
+            print("hi")
+            result = nffa.modNegate(result, n)
+        return result
 
     @staticmethod
     def quadResidue():

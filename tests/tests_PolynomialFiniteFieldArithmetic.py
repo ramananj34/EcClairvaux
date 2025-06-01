@@ -163,6 +163,24 @@ q, rem = pffa.modPseudoDivide(pa, pb, mod)
 assert f"{q} and {rem}" == "1x^0 and 3x^2 + 6x^0"
 
 #Resultant
+p1 = pffa.Poly([1])
+p2 = pffa.Poly([2])
+mod = 641354330288980666554242813101
+assert pffa.resultant(p1, p2, mod) == 1
+p1 = pffa.Poly([1, 1])
+p2 = pffa.Poly([2])
+assert pffa.resultant(p1, p2, mod) == 2
+assert pffa.resultant(p2, p1, mod) == 2
+p1 = pffa.Poly([3, 3])
+p2 = pffa.Poly([1, 2, 1])
+assert pffa.resultant(p1, p2, mod) == 0
+p1 = pffa.Poly([4, 3, 2, 1])
+p2 = pffa.Poly([7, 6, 5])
+print(pffa.resultant(p1, p2, mod))
+assert pffa.resultant(p1, p2, mod) == 832
+p1 = pffa.Poly([-5, 2, 8, -3, -3, 0, 1, 0, 1])
+p2 = pffa.Poly([21, -9, -4, 0, 5, 0, 3])
+print(pffa.resultant(p1, p2, mod))
 
 #Quad Residues
 
