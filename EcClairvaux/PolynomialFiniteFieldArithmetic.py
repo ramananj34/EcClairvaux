@@ -256,7 +256,13 @@ class PolynomialFiniteFieldArithmetic:
 
     @staticmethod 
     def resultant(p, q):
-        pass
+        if p.degree() == -1 or q.degree() == -1:
+            return 0
+        p2 = PolynomialFiniteFieldArithmetic.Poly([a for a in p.cx])
+        q2 = PolynomialFiniteFieldArithmetic.Poly([a for a in q.cx])
+        contA = PolynomialFiniteFieldArithmetic.getContent(p)
+        contB = PolynomialFiniteFieldArithmetic.getContent(q)
+
 
     @staticmethod
     def quadResidue():
