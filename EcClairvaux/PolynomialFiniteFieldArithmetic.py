@@ -50,6 +50,9 @@ class PolynomialFiniteFieldArithmetic:
                 temp = nffa.modMult(self.multTable[cols][0], self.multTable[i-1][cols-1], p)
                 self.multTable[i][0] = temp
 
+        def declareExtension(self, k):
+            self.k = k
+
         def printMultTable(self):
             for i in range(len(self.multTable)):
                 for j in range(len(self.multTable[i])):
@@ -305,5 +308,41 @@ class PolynomialFiniteFieldArithmetic:
         return 1 == nffa.modPow(resultant, ((primePoly.p-1)//2), primePoly.p)
 
     @staticmethod
-    def modSqrt():
-        pass
+    def modSqrt(p, primePoly):
+        pk = primePoly.p ** primePoly.degree()
+        if pk % 4 == 3: #Use Fermat's Little Theorem Directly
+            q = ((pk+1)//4)
+            return PolynomialFiniteFieldArithmetic.modPower(p, q, primePoly)
+        #Now do Tonelli/Shanks Algorithm
+        q = pk-1
+        r = 0
+        while (q%2 == 0):
+            r+=1
+            q = q//2
+        y = PolynomialFiniteFieldArithmetic.randPoly(primePoly.degree()-1, primePoly.p)
+        while (PolynomialFiniteFieldArithmetic.isQuadResidue(y, primePoly)):
+            y = PolynomialFiniteFieldArithmetic.randPoly(primePoly.degree()-1, primePoly.p)
+        y = PolynomialFiniteFieldArithmetic.modPower(y, q, primePoly)
+        b = PolynomialFiniteFieldArithmetic.modPower(p, q, primePoly)
+        x = PolynomialFiniteFieldArithmetic.modPower(p, (q+1)//2, primePoly)
+        bpw = PolynomialFiniteFieldArithmetic.Poly([0])
+        one = PolynomialFiniteFieldArithmetic.Poly([1])
+        while b != one:
+            m = 0
+            while bpw != one:
+                m+=1
+                m2 = 1 << m
+                pk = m2
+                bpw = PolynomialFiniteFieldArithmetic.modPower(b, pk, primePoly)
+                if (m == r):
+                    print("Something went wrong, I am not sure what")
+                    return None
+            i = r - m - 1
+            m2 = 1 << i
+            pk = m2
+            t = PolynomialFiniteFieldArithmetic.modPower(y, pk, primePoly)
+            y = PolynomialFiniteFieldArithmetic.modPolyMult(t, t, primePoly)
+            r = m
+            x = PolynomialFiniteFieldArithmetic.modPolyMult(x, t, primePoly)
+            b = PolynomialFiniteFieldArithmetic.modPolyMult(b, y, primePoly)
+        return x

@@ -205,5 +205,17 @@ p = pffa.Poly([33, 15])
 assert not pffa.isQuadResidue(p, primePoly)
 
 #Square Root
+"""
+primePoly = pffa.Poly([2, 1])
+primePoly.declareMultTable(3)
+p = pffa.Poly([2])
+p2 = pffa.modPower(p, 2, primePoly)
+print(pffa.modSqrt(p2, primePoly))
+"""
+primePoly = pffa.Poly([5, 3, 1, 2, 1])
+primePoly.declareMultTable(4219)
+p = pffa.Poly([1, 2, 3])
+p2 = pffa.modPolyMult(p, p, primePoly)
+print(pffa.modSqrt2(p2, primePoly))
 
 print("All tests passed")
